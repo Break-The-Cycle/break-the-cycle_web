@@ -17,7 +17,7 @@ export function SignIn() {
     console.log(e)
     e.preventDefault();
     console.log("id/pw",id,password)
-    
+
     // 여기서 post하기
 
     // let posturl = "https://farm01.bitlworks.co.kr/api/v1/";
@@ -50,7 +50,7 @@ export function SignIn() {
     if(id == "root" & password == "1111"){
       window.location.replace("/dashboard/home");
     }else{
-      alert("아이디 비밀번호를 확인하세요")
+      alert("아이디와 비밀번호를 확인하세요")
     }
 
 
