@@ -25,13 +25,14 @@ import {
   setOpenConfigurator,
   setOpenSidenav,
 } from "@/context";
-
+// 헤더 네브바
 export function DashboardNavbar() {
   const [controller, dispatch] = useMaterialTailwindController();
   const { fixedNavbar, openSidenav } = controller;
   const { pathname } = useLocation();
   const [layout, page] = pathname.split("/").filter((el) => el !== "");
-
+  console.log("layout",layout);
+  console.log("page",page);
   return (
     <Navbar
       color={fixedNavbar ? "white" : "transparent"}
@@ -64,10 +65,12 @@ export function DashboardNavbar() {
               color="blue-gray"
               className="font-normal"
             >
-              {page}
+              {/* 헤더쪽에 적히는 text */}
+              {page} 
             </Typography>
           </Breadcrumbs>
           <Typography variant="h6" color="blue-gray">
+            {/* 헤더쪽에 적히는 text */}
             {page}
           </Typography>
         </div>
