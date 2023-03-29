@@ -97,7 +97,7 @@ export function SignIn() {
             </CardHeader>
             <CardBody className="flex flex-col gap-4">
               
-                <Input type="text" label="text" name = "id" size="lg" onChange={onChangeLogIn} />
+                <Input type="text" label="Id" name = "id" size="lg" onChange={onChangeLogIn} />
                 <Input type="password" label="Password" name = "password" size="lg" onChange={onChangeLogIn}/>
                 <div className="-ml-2.5">
                   <Checkbox label="Remember Me" />
