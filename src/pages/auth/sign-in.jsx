@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { React, useState, useEffect, useRef } from "react";
+import axios from 'axios';
 import {
   Card,
   CardHeader,
@@ -48,9 +49,9 @@ export function SignIn() {
 
     // 임시 로그인
     if(id == "root" & password == "1111"){
-      window.location.replace("/dashboard/main?role=1");
+      window.location.replace("/dashboard/admin");
     }else if(id == "police" & password == "1111"){
-      window.location.replace("/dashboard/main?role=2");
+      window.location.replace("/dashboard/main");
     }
     else{
       alert("아이디와 비밀번호를 확인하세요")
