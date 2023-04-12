@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, NavLink } from "react-router-dom";
 import {
   Typography,
   Card,
@@ -12,6 +13,7 @@ import {
   Avatar,
   Tooltip,
   Progress,
+  Button
 } from "@material-tailwind/react";
 import {
   ClockIcon,
@@ -26,6 +28,7 @@ import {
   statisticsChartsData,
   projectsTableData,
   ordersOverviewData,
+  AdminTableData,
 } from "@/data";
 import "../../../public/css/cssRhw/common.css";
 
@@ -46,14 +49,14 @@ export function Admin() {
           >
             <div>
               <Typography variant="h6" color="blue-gray" className="mb-1">
-                Projects
+                토큰 신청 리스트
               </Typography>
               <Typography
                 variant="small"
                 className="flex items-center gap-1 font-normal text-blue-gray-600"
               >
                 <CheckIcon strokeWidth={3} className="h-4 w-4 text-blue-500" />
-                <strong>30 done</strong> this month
+                <strong>30 일</strong> 이내
               </Typography>
             </div>
             <Menu placement="left-start">
@@ -77,7 +80,7 @@ export function Admin() {
             <table className="w-full min-w-[640px] table-auto">
               <thead>
                 <tr>
-                  {["companies", "members", "budget", "completion"].map(
+                  {["이름", "전화번호", "요청날짜", "permission"].map(
                     (el) => (
                       <th
                         key={el}
@@ -96,7 +99,7 @@ export function Admin() {
               </thead>
               <tbody>
                 {/* projects-table-data.js 에 데이터 리스트가 있음 아마 이 테이블을 사용하지 않을까? */}
-                {projectsTableData.map(
+                {AdminTableData.map(
                   ({ img, name, members, budget, completion }, key) => {
                     const className = `py-3 px-5 ${
                       key === projectsTableData.length - 1
@@ -114,12 +117,14 @@ export function Admin() {
                               color="blue-gray"
                               className="font-bold"
                             >
-                              {name}
+                              <Link to="/dashboard/profile"
+                                state={{"name":name}}
+                               >{name}</Link>
                             </Typography>
                           </div>
                         </td>
                         <td className={className}>
-                          {members.map(({ img, name }, key) => (
+                          {/* {members.map(({ img, name }, key) => (
                             <Tooltip key={name} content={name}>
                               <Avatar
                                 src={img}
@@ -131,7 +136,13 @@ export function Admin() {
                                 }`}
                               />
                             </Tooltip>
-                          ))}
+                          ))} */}
+                          <Typography
+                            variant="small"
+                            className="text-xs font-medium text-blue-gray-600"
+                          >
+                            {members}
+                          </Typography>
                         </td>
                         <td className={className}>
                           <Typography
@@ -143,7 +154,7 @@ export function Admin() {
                         </td>
                         <td className={className}>
                           <div className="w-10/12">
-                            <Typography
+                            {/* <Typography
                               variant="small"
                               className="mb-1 block text-xs font-medium text-blue-gray-600"
                             >
@@ -154,7 +165,12 @@ export function Admin() {
                               variant="gradient"
                               color={completion === 100 ? "green" : "blue"}
                               className="h-1"
-                            />
+                            /> */}
+                            <Button
+                              color = "pink"
+                            >
+                              OK
+                            </Button>
                           </div>
                         </td>
                       </tr>
@@ -165,7 +181,7 @@ export function Admin() {
             </table>
           </CardBody>
         </Card>
-        
+        {/* <div class = "text-SUB2">asdf</div> */}
       </div>
     </div>
   );
