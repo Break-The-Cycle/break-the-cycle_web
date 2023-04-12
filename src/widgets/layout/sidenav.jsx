@@ -6,6 +6,7 @@ import {
   Button,
   IconButton,
   Typography,
+  
 } from "@material-tailwind/react";
 import { useMaterialTailwindController, setOpenSidenav } from "@/context";
 
@@ -16,11 +17,17 @@ export function Sidenav({ brandImg, brandName, routes }) {
     dark: "bg-gradient-to-br from-blue-gray-800 to-blue-gray-900",
     white: "bg-white shadow-lg",
     transparent: "bg-transparent",
+    main: "bg-main",
+    sub1: "bg-SUB1",
+    sub2: "bg-SUB2",
+    bg_text1: "bg-BG_TEXT1",
+    bg_text2: "bg-BG_TEXT2",
   };
+  // console.log("sidenavColor",sidenavColor)
 
   return (
     <aside
-      className={`${sidenavTypes[sidenavType]} ${
+      className={`${sidenavTypes["main"]} ${
         openSidenav ? "translate-x-0" : "-translate-x-80"
       } fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0`}
     >
@@ -29,6 +36,7 @@ export function Sidenav({ brandImg, brandName, routes }) {
           sidenavType === "dark" ? "border-white/20" : "border-blue-gray-50"
         }`}
       >
+        
         <Link to="/" className="flex items-center gap-4 py-6 px-8">
           <Avatar src={brandImg} size="sm" />
           <Typography
@@ -69,18 +77,22 @@ export function Sidenav({ brandImg, brandName, routes }) {
             {/* 사이드바 */}
             {/* pages들은 가장 외부의 routes.jsx 에서 선언 되었고, dashboard에서 sidebar를 선언하면서 넣어줌 */}
             {pages.map(({ icon, name, path }) => (
-              <li key={name}>
+              <li key={name} >
                 <NavLink to={`/${layout}${path}`}>
                   {({ isActive }) => (
+                    
                     <Button
                       variant={isActive ? "gradient" : "text"}
-                      color={
-                        isActive
-                          ? sidenavColor
-                          : sidenavType === "dark"
-                          ? "white"
-                          : "blue-gray"
-                      }
+                      // color={
+                      //   isActive
+                      //     ? sidenavColor
+                      //     : sidenavType === "dark"
+                      //     ? "white"
+                      //     : "blue-gray"
+                      //     ? "main"
+                      //     : "sub1"
+                      // }
+                      color = {"white"}
                       className="flex items-center gap-4 px-4 capitalize"
                       fullWidth
                     >

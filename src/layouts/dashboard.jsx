@@ -36,6 +36,7 @@ export function Dashboard() {
         </IconButton>
         <Routes>
           {routes.map(
+            
             ({ layout, pages }) =>
               layout === "dashboard" &&
               pages.map(({ path, element }) => (
