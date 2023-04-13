@@ -20,7 +20,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { Link,useLocation } from "react-router-dom";
 import { ProfileInfoCard, MessageCard } from "@/widgets/cards";
-import { platformSettingsData, conversationsData, projectsData } from "@/data";
+import { platformSettingsData, conversationsData, projectsData,victimData } from "@/data";
 
 export function Profile() {
   const location = useLocation();
@@ -31,7 +31,7 @@ export function Profile() {
   return (
     <>
       {/* 여기 뒤에 url 부분이 profile 위에 있는 이미지 */}
-      <div className="relative mt-8 h-72 w-full overflow-hidden rounded-xl bg-[url(https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80)] bg-cover	bg-center">
+      <div className="relative mt-8 h-72 w-full overflow-hidden rounded-xl bg-[url(https://yimgf-thinkzon.yesform.com/docimgs/public/1/65/64071/64070399.jpg)] bg-cover	bg-center">
         <div className="absolute inset-0 h-full w-full bg-blue-500/50" />
       </div>
       <Card className="mx-3 -mt-16 mb-6 lg:mx-4">
@@ -52,11 +52,11 @@ export function Profile() {
                   variant="small"
                   className="font-normal text-blue-gray-600"
                 >
-                  CEO / Co-Founder
+                  경기도 고양시 화전 경찰서 / 경감
                 </Typography>
               </div>
             </div>
-            <div className="w-96">
+            {/* <div className="w-96">
               <Tabs value="app">
                 <TabsHeader>
                   <Tab value="app">
@@ -73,10 +73,11 @@ export function Profile() {
                   </Tab>
                 </TabsHeader>
               </Tabs>
-            </div>
+            </div> */}
           </div>
-          <div className="gird-cols-1 mb-12 grid gap-12 px-4 lg:grid-cols-2 xl:grid-cols-3">
-            <div>
+          {/* <div className="gird-cols-1 mb-12 grid gap-12 px-4 lg:grid-cols-2 xl:grid-cols-3"> */}
+          <div className="gird-cols-1 mb-12 grid gap-12 px-4 lg:grid-cols-2 xl:grid-cols-2">
+            {/* <div>
               <Typography variant="h6" color="blue-gray" className="mb-3">
                 Platform Settings
               </Typography>
@@ -102,15 +103,15 @@ export function Profile() {
                   </div>
                 ))}
               </div>
-            </div>
+            </div> */}
             <ProfileInfoCard
-              title="Profile Information"
-              description="Hi, I'm Alec Thompson, Decisions: If you can't decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality)."
+              title="Profile 정보"
+              description="안녕하세요. 화전경찰서 외사계 ~~~ 입니다. 국민의 자유와 권리의 보호 및 사회공공의 질서유지를 위한 경찰관의 직무수행에 필요한 사항을 규정함을 목적으로 하고 있습니다."
               details={{
-                "first name": "Alec M. Thompson",
-                mobile: "(44) 123 1234 123",
-                email: "alecthompson@mail.com",
-                location: "USA",
+                "first name": "강",
+                mobile: "010-0000-0000",
+                email: "kang@mail.com",
+                location: "national siver wing",
                 social: (
                   <div className="flex items-center gap-4">
                     <i className="fa-brands fa-facebook text-blue-700" />
@@ -127,10 +128,10 @@ export function Profile() {
             />
             <div>
               <Typography variant="h6" color="blue-gray" className="mb-3">
-                Platform Settings
+                담당 피해자
               </Typography>
               <ul className="flex flex-col gap-6">
-                {conversationsData.map((props) => (
+                {victimData.map((props) => (
                   <MessageCard
                     key={props.name}
                     {...props}
@@ -144,7 +145,7 @@ export function Profile() {
               </ul>
             </div>
           </div>
-          <div className="px-4 pb-4">
+          {/* <div className="px-4 pb-4">
             <Typography variant="h6" color="blue-gray" className="mb-2">
               Projects
             </Typography>
@@ -216,7 +217,7 @@ export function Profile() {
                 )
               )}
             </div>
-          </div>
+          </div> */}
         </CardBody>
       </Card>
     </>
