@@ -13,6 +13,7 @@ import {
   Tooltip,
   Progress,
 } from "@material-tailwind/react";
+import { Link, NavLink } from "react-router-dom";
 import {
   ClockIcon,
   CheckIcon,
@@ -26,6 +27,7 @@ import {
   statisticsChartsData,
   projectsTableData,
   ordersOverviewData,
+  MainTableData,
 } from "@/data";
 import "../../../public/css/cssRhw/common.css";
 
@@ -46,14 +48,14 @@ export function Main() {
           >
             <div>
               <Typography variant="h6" color="blue-gray" className="mb-1">
-                Projects
+                연결된 피해자 리스트
               </Typography>
               <Typography
                 variant="small"
                 className="flex items-center gap-1 font-normal text-blue-gray-600"
               >
-                <CheckIcon strokeWidth={3} className="h-4 w-4 text-blue-500" />
-                <strong>30 done</strong> this month
+                {/* <CheckIcon strokeWidth={3} className="h-4 w-4 text-blue-500" /> */}
+                {/* <strong>30 일</strong> this month */}
               </Typography>
             </div>
             <Menu placement="left-start">
@@ -77,7 +79,7 @@ export function Main() {
             <table className="w-full min-w-[640px] table-auto">
               <thead>
                 <tr>
-                  {["companies", "members", "budget", "completion"].map(
+                  {["이름", "전화번호", "국적", "나이"].map(
                     (el) => (
                       <th
                         key={el}
@@ -96,7 +98,7 @@ export function Main() {
               </thead>
               <tbody>
                 {/* projects-table-data.js 에 데이터 리스트가 있음 아마 이 테이블을 사용하지 않을까? */}
-                {projectsTableData.map(
+                {MainTableData.map(
                   ({ img, name, members, budget, completion }, key) => {
                     const className = `py-3 px-5 ${
                       key === projectsTableData.length - 1
@@ -114,12 +116,16 @@ export function Main() {
                               color="blue-gray"
                               className="font-bold"
                             >
-                              {name}
+                              <Link to="/dashboard/main"
+                                state={{"name":name}}
+                               >
+                               {name}
+                              </Link>
                             </Typography>
                           </div>
                         </td>
                         <td className={className}>
-                          {members.map(({ img, name }, key) => (
+                          {/* {members.map(({ img, name }, key) => (
                             <Tooltip key={name} content={name}>
                               <Avatar
                                 src={img}
@@ -131,7 +137,13 @@ export function Main() {
                                 }`}
                               />
                             </Tooltip>
-                          ))}
+                          ))} */}
+                           <Typography
+                            variant="small"
+                            className="text-xs font-medium text-blue-gray-600"
+                          >
+                            {members}
+                          </Typography>
                         </td>
                         <td className={className}>
                           <Typography
@@ -147,14 +159,14 @@ export function Main() {
                               variant="small"
                               className="mb-1 block text-xs font-medium text-blue-gray-600"
                             >
-                              {completion}%
+                              {completion}세
                             </Typography>
-                            <Progress
+                            {/* <Progress
                               value={completion}
                               variant="gradient"
                               color={completion === 100 ? "green" : "blue"}
                               className="h-1"
-                            />
+                            /> */}
                           </div>
                         </td>
                       </tr>
