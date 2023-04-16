@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink,useNavigate } from "react-router-dom";
 import {
   Typography,
   Card,
@@ -33,6 +33,18 @@ import {
 import "../../../public/css/cssRhw/common.css";
 
 export function Admin() {
+
+  const navigate = useNavigate();
+
+  const handleToProfile=(item)=>{
+    console.log("handleToProfile",item)
+    // 어드민 플로우인지 구분하는 flag와 해당 경찰의 id를 넘기고 해당 id로 profile page 에서 체크!
+    navigate('/dashboard/profile',{
+      state:{
+        name:`${item}`
+      }
+    })
+  }
   return (
     <div className="mt-12">
         
@@ -116,10 +128,12 @@ export function Admin() {
                               variant="small"
                               color="blue-gray"
                               className="font-bold"
+                              
                             >
-                              <Link to="/dashboard/profile"
+                              <div onClick={()=>handleToProfile(name)}>{name}</div>
+                              {/* <Link to="/dashboard/profile"
                                 state={{"name":name}}
-                               >{name}</Link>
+                               >{name}</Link> */}
                             </Typography>
                           </div>
                         </td>

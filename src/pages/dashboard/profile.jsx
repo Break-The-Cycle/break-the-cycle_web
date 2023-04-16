@@ -20,14 +20,49 @@ import {
 } from "@heroicons/react/24/solid";
 import { Link,useLocation } from "react-router-dom";
 import { ProfileInfoCard, MessageCard } from "@/widgets/cards";
-import { platformSettingsData, conversationsData, projectsData,victimData } from "@/data";
-
-export function Profile() {
+import { platformSettingsData, conversationsData, projectsData,victimData,AdminTableData } from "@/data";
+import {useState,useEffect} from 'react';
+export function Profile(flag) {
   const location = useLocation();
+  const [police, setPolice] = useState({
+    name:"",
+    mobile : "",
+    email:"",
+    location:"",
+    information:""
+  })
+
+
+  let applicantProfile = {
+    name:"",
+    mobile : "",
+    email:"",
+    location:"",
+    information:""
+  }
   const name = location.state?.name; // 추가된 부분
   console.log("location",location)
   console.log("location",location.state)
-  console.log("name",name)
+  console.log("name",name,flag)
+  console.log("AdminTableData",AdminTableData)
+
+  AdminTableData.forEach((applicant,index,array)=>{
+    
+    if(applicant.name == name){
+      console.log(name)
+      
+      applicantProfile.name = applicant.name
+      applicantProfile.mobile = applicant.members
+      applicantProfile.email = ""
+      applicantProfile.location = ""
+      applicantProfile.information = ""
+      
+      
+    }
+    console.log("applicantProfile",applicantProfile)
+  })
+
+
   return (
     <>
       {/* 여기 뒤에 url 부분이 profile 위에 있는 이미지 */}
@@ -104,28 +139,66 @@ export function Profile() {
                 ))}
               </div>
             </div> */}
-            <ProfileInfoCard
-              title="Profile 정보"
-              description="안녕하세요. 화전경찰서 외사계 ~~~ 입니다. 국민의 자유와 권리의 보호 및 사회공공의 질서유지를 위한 경찰관의 직무수행에 필요한 사항을 규정함을 목적으로 하고 있습니다."
-              details={{
-                "first name": "강",
-                mobile: "010-0000-0000",
-                email: "kang@mail.com",
-                location: "national siver wing",
-                social: (
-                  <div className="flex items-center gap-4">
-                    <i className="fa-brands fa-facebook text-blue-700" />
-                    <i className="fa-brands fa-twitter text-blue-400" />
-                    <i className="fa-brands fa-instagram text-purple-500" />
+              {/* <div>
+              {AdminTableData.map((props) => (
+                  <div>
+                    {props.name==name?
+                      (
+                        <ProfileInfoCard
+                          title="Profile 정보"
+                          description="안녕하세요. 화전경찰서 외사계 ~~~ 입니다. 국민의 자유와 권리의 보호 및 사회공공의 질서유지를 위한 경찰관의 직무수행에 필요한 사항을 규정함을 목적으로 하고 있습니다."
+                          details={{
+                            "last name": `${props.name}`.substr(0,1),
+                            "first name":`${props.name}`.substr(1,3),
+                            mobile: `${props.members}`,
+                            email: "테이블에 추가해야할 정보",
+                            location: "테이블에 추가해야할 정보",
+                            social: (
+                              <div className="flex items-center gap-4">
+                                <i className="fa-brands fa-facebook text-blue-700" />
+                                <i className="fa-brands fa-twitter text-blue-400" />
+                                <i className="fa-brands fa-instagram text-purple-500" />
+                              </div>
+                            ),
+                          }}
+                          action={
+                            <Tooltip content="Edit Profile">
+                              <PencilIcon className="h-4 w-4 cursor-pointer text-blue-gray-500" />
+                            </Tooltip>
+                          }
+                        />
+                      )
+                      :
+                      ""
+                    }
                   </div>
-                ),
-              }}
-              action={
-                <Tooltip content="Edit Profile">
-                  <PencilIcon className="h-4 w-4 cursor-pointer text-blue-gray-500" />
-                </Tooltip>
-              }
-            />
+                ))}
+              </div> */}
+
+              <ProfileInfoCard
+                title="Profile 정보"
+                description="안녕하세요. 화전경찰서 외사계 ~~~ 입니다. 국민의 자유와 권리의 보호 및 사회공공의 질서유지를 위한 경찰관의 직무수행에 필요한 사항을 규정함을 목적으로 하고 있습니다."
+                details={{
+                  "last name": applicantProfile.name.substr(0,1),
+                  "first name":applicantProfile.name.substr(1,3),
+                  mobile: applicantProfile.mobile,
+                  email: "테이블에 추가해야할 정보",
+                  location: "테이블에 추가해야할 정보",
+                  social: (
+                    <div className="flex items-center gap-4">
+                      <i className="fa-brands fa-facebook text-blue-700" />
+                      <i className="fa-brands fa-twitter text-blue-400" />
+                      <i className="fa-brands fa-instagram text-purple-500" />
+                    </div>
+                  ),
+                }}
+                action={
+                  <Tooltip content="Edit Profile">
+                    <PencilIcon className="h-4 w-4 cursor-pointer text-blue-gray-500" />
+                  </Tooltip>
+                }
+              />
+           
             <div>
               <Typography variant="h6" color="blue-gray" className="mb-3">
                 담당 피해자
