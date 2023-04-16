@@ -13,7 +13,7 @@ import {
   Tooltip,
   Progress,
 } from "@material-tailwind/react";
-import { Link, NavLink,useNavigate } from "react-router-dom";
+import { Link, NavLink,useLocation,useNavigate } from "react-router-dom";
 import {
   ClockIcon,
   CheckIcon,
@@ -28,20 +28,46 @@ import {
   projectsTableData,
   ordersOverviewData,
   MainTableData,
+  RecordData
 } from "@/data";
 import "../../../public/css/cssRhw/common.css";
 
-export function Main() {
-  const navigate = useNavigate();
-  const handleToRecord=(item)=>{
-    console.log("handleToRecord",item)
+export function Record() {
+    const location = useLocation();
+    const navigate = useNavigate();
+  const handleToRecordDetail=(item)=>{
+    console.log("handleToRecordDetail",item)
     // 어드민 플로우인지 구분하는 flag와 해당 경찰의 id를 넘기고 해당 id로 profile page 에서 체크!
-    navigate('/dashboard/record',{
+    navigate('/dashboard/recordDetail',{
       state:{
-        name:`${item}`
+        recordName:`${item}`
       }
     })
   }
+    const name = location.state?.name; // 추가된 부분
+  console.log("location",location)
+  console.log("location",location.state)
+  
+
+  let recordArray = []
+  RecordData.forEach((record,index,array)=>{
+    
+    if(record.name == name){
+      console.log(name)
+      recordArray.push(
+        {
+        name : record.name,
+        time : record.time,
+        title : record.title,
+        classification : record.classification,
+        
+      })
+      
+      
+      
+    }
+    console.log("recordArray",recordArray)
+  })
   return (
     <div className="mt-12">
         
@@ -58,7 +84,7 @@ export function Main() {
           >
             <div>
               <Typography variant="h6" color="blue-gray" className="mb-1">
-                연결된 피해자 리스트
+                피해 기록
               </Typography>
               <Typography
                 variant="small"
@@ -89,7 +115,7 @@ export function Main() {
             <table className="w-full min-w-[640px] table-auto">
               <thead>
                 <tr>
-                  {["이름", "전화번호", "국적", "나이"].map(
+                  {["증거물", "종류", "피해자 이름", "시간"].map(
                     (el) => (
                       <th
                         key={el}
@@ -107,9 +133,9 @@ export function Main() {
                 </tr>
               </thead>
               <tbody>
-                {/* projects-table-data.js 에 데이터 리스트가 있음 아마 이 테이블을 사용하지 않을까? */}
-                {MainTableData.map(
-                  ({ img, name, members, budget, completion }, key) => {
+                
+                {recordArray.map(
+                  ({ img, name, title, classification, time }, key) => {
                     const className = `py-3 px-5 ${
                       key === projectsTableData.length - 1
                         ? ""
@@ -120,37 +146,25 @@ export function Main() {
                       <tr key={name}>
                         <td className={className}>
                           <div className="flex items-center gap-4">
-                            <Avatar src={img} alt={name} size="sm" />
+                            
                             <Typography
                               variant="small"
                               color="blue-gray"
                               className="font-bold"
                             >
-                              <div onClick={()=>handleToRecord(name)}>{name}</div>
-                              
+                              <div onClick = {()=>handleToRecordDetail(title)}>{title}</div>
+                               
                               
                             </Typography>
                           </div>
                         </td>
                         <td className={className}>
-                          {/* {members.map(({ img, name }, key) => (
-                            <Tooltip key={name} content={name}>
-                              <Avatar
-                                src={img}
-                                alt={name}
-                                size="xs"
-                                variant="circular"
-                                className={`cursor-pointer border-2 border-white ${
-                                  key === 0 ? "" : "-ml-2.5"
-                                }`}
-                              />
-                            </Tooltip>
-                          ))} */}
+                          
                            <Typography
                             variant="small"
                             className="text-xs font-medium text-blue-gray-600"
                           >
-                            {members}
+                            {classification}
                           </Typography>
                         </td>
                         <td className={className}>
@@ -158,7 +172,7 @@ export function Main() {
                             variant="small"
                             className="text-xs font-medium text-blue-gray-600"
                           >
-                            {budget}
+                            {name}
                           </Typography>
                         </td>
                         <td className={className}>
@@ -167,7 +181,7 @@ export function Main() {
                               variant="small"
                               className="mb-1 block text-xs font-medium text-blue-gray-600"
                             >
-                              {completion}세
+                              {time}
                             </Typography>
                             {/* <Progress
                               value={completion}
@@ -191,4 +205,4 @@ export function Main() {
   );
 }
 
-export default Main;
+export default Record;
