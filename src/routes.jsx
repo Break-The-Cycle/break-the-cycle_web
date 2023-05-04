@@ -24,12 +24,28 @@ export const routes = [
         name: "dashboard",
         path: "/home",
         element: <Home />,
+        role:"admin"
       },
       {
         icon: <HomeIcon {...icon} />,
         name: "Main",
         path: "/main",
         element: <Main />,
+        role : "police"
+      },
+      {
+        icon: <HomeIcon {...icon} />,
+        name: "Record",
+        path: "/record",
+        element: <Record />,
+        role : "police"
+      },
+      {
+        icon: <HomeIcon {...icon} />,
+        name: "RecordDetail",
+        path: "/recordDetail",
+        element: <RecordDetail />,
+        role : "police"
       },
       {
         icon: <HomeIcon {...icon} />,
@@ -49,6 +65,7 @@ export const routes = [
         name: "Admin",
         path: "/admin",
         element: <Admin />,
+        role:"admin"
       },
       {
 
@@ -56,18 +73,21 @@ export const routes = [
         name: "profile",
         path: "/profile",
         element: <Profile />,
+        role:"admin"
       },
       {
         icon: <TableCellsIcon {...icon} />,
         name: "tables",
         path: "/tables",
         element: <Tables />,
+        role:"admin"
       },
       {
         icon: <BellIcon {...icon} />,
         name: "notifactions",
         path: "/notifactions",
         element: <Notifications />,
+        role:"admin"
       },
     ],
   },
@@ -80,12 +100,14 @@ export const routes = [
         name: "sign in",
         path: "/sign-in",
         element: <SignIn />,
+        role : "all"
       },
       {
         icon: <UserPlusIcon {...icon} />,
         name: "sign up",
         path: "/sign-up",
         element: <SignUp />,
+        role : "all"
       },
     ],
   },
