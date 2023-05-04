@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, NavLink,useNavigate } from "react-router-dom";
+import { Link, NavLink,useNavigate,useLocation } from "react-router-dom";
 import {
   Typography,
   Card,
@@ -35,6 +35,12 @@ import "../../../public/css/cssRhw/common.css";
 export function Admin() {
 
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  console.log("location",location)
+  console.log("location",location.state)
+
+
 
   const handleToProfile=(item)=>{
     console.log("handleToProfile",item)

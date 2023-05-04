@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link,useNavigate,useLocation } from "react-router-dom";
 import { React, useState, useEffect, useRef } from "react";
 import axios from 'axios';
+import { useCookies } from "react-cookie";
 import {
   Card,
   CardHeader,
@@ -13,7 +14,9 @@ import {
 } from "@material-tailwind/react";
 
 export function SignIn() {
-
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [cookies, setCookie, removeCookie] = useCookies(["default"]);
   function handleLoginSubmit(e) {
     console.log(e)
     e.preventDefault();
@@ -49,11 +52,31 @@ export function SignIn() {
 
     // 임시 로그인
     if(id == "root" & password == "1111"){
+      setCookie("cookie", {
+        name : "admin",
+        role : "admin"
+      });
+      navigate("/dashboard/admin",{
+        state:{
+          name : "admin",
+          role : "admin"
+        }
+      })
+      
 
-      window.location.replace("/dashboard/admin");
     }else if(id == "police" & password == "1111"){
-      window.location.replace("/dashboard/main");
+      setCookie("cookie", {
+        name : "경찰",
+        role : "police"
+      });
+      navigate("/dashboard/admin",{
+        state:{
+          name : "경찰",
+          role : "police"
+        }
+      })
 
+      
     }
     else{
       alert("아이디와 비밀번호를 확인하세요")
@@ -75,7 +98,8 @@ export function SignIn() {
   const [logInInfo, setLogInInfo] = useState({
     id: "",
     password: "",
-    
+    role:"",
+    name:""
   });
    
   const {id, password} = logInInfo; // 전역 id/pw 선언

@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { Link, NavLink } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { useCookies } from "react-cookie";
 import {
   Avatar,
   Button,
@@ -10,7 +11,10 @@ import {
 } from "@material-tailwind/react";
 import { useMaterialTailwindController, setOpenSidenav } from "@/context";
 
-export function Sidenav({ brandImg, brandName, routes }) {
+export function Sidenav({ brandImg, brandName, routes,role }) {
+  const [cookies, setCookie, removeCookie] = useCookies(["default"]);
+  console.log("123",cookies.cookie.role)
+  const idRole = cookies.cookie.role
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavColor, sidenavType, openSidenav } = controller;
   const sidenavTypes = {
@@ -76,10 +80,13 @@ export function Sidenav({ brandImg, brandName, routes }) {
             )}
             {/* 사이드바 */}
             {/* pages들은 가장 외부의 routes.jsx 에서 선언 되었고, dashboard에서 sidebar를 선언하면서 넣어줌 */}
-            {pages.map(({ icon, name, path }) => (
+            {pages.map(({ icon, name, path, role }) => (
               <li key={name} >
+                {role == idRole ?(
                 <NavLink to={`/${layout}${path}`}>
                   {({ isActive }) => (
+                    
+                    
                     
                     <Button
                       variant={isActive ? "gradient" : "text"}
@@ -105,7 +112,39 @@ export function Sidenav({ brandImg, brandName, routes }) {
                       </Typography>
                     </Button>
                   )}
-                </NavLink>
+                </NavLink>):role =="all"?(
+       <NavLink to={`/${layout}${path}`}>
+       {({ isActive }) => (
+         
+         
+         
+         <Button
+           variant={isActive ? "gradient" : "text"}
+           // color={
+           //   isActive
+           //     ? sidenavColor
+           //     : sidenavType === "dark"
+           //     ? "white"
+           //     : "blue-gray"
+           //     ? "main"
+           //     : "sub1"
+           // }
+           color = {"white"}
+           className="flex items-center gap-4 px-4 capitalize"
+           fullWidth
+         >
+           {icon}
+           <Typography
+             color="inherit"
+             className="font-medium capitalize"
+           >
+             {name}
+           </Typography>
+         </Button>
+       )}
+     </NavLink>
+                    ):(<></>)}
+                
               </li>
             ))}
           </ul>
