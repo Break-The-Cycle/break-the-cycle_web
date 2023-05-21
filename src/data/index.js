@@ -10,4 +10,3 @@ export * from "@/data/admin-token-data";
 export * from "@/data/victim-data";
 export * from "@/data/main-victim-data";
 export * from "@/data/record-data";
-export * from "@/data/intution-data";

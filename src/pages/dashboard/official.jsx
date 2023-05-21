@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect,useState } from "react";
+import axios from 'axios';
 import { Link, NavLink,useNavigate,useLocation } from "react-router-dom";
 import {
   Typography,
@@ -21,6 +22,7 @@ import {
   EllipsisVerticalIcon,
   ArrowUpIcon,
 } from "@heroicons/react/24/outline";
+import { useCookies } from "react-cookie";
 import { StatisticsCard } from "@/widgets/cards";
 import { StatisticsChart } from "@/widgets/charts";
 import {
@@ -29,17 +31,65 @@ import {
   projectsTableData,
   ordersOverviewData,
   AdminTableData,
-  IntutionData
+  //IntutionData
 } from "@/data";
 import "../../../public/css/cssRhw/common.css";
+// import "@/data/intution-data.js";
+
+
 
 export function Official() {
-
+  const [cookies, setCookie, removeCookie] = useCookies(["default"]);
+  
   const navigate = useNavigate();
   const location = useLocation();
   
   console.log("location",location)
   console.log("location",location.state)
+  const [IntutionData, setIntutionData] = useState([]);
+  useEffect(() => {
+    getOfficialInstitution()
+  }, []);
+
+  function getOfficialInstitution(){
+    let posturl = "http://dev-break-the-cycle.ap-northeast-2.elasticbeanstalk.com/api/v1/";
+    let posturl_set = posturl + "official-institutions";
+    console.log("!!!!!")
+    let token = cookies.cookie.token
+    console.log("token",token)
+    axios
+      .get(posturl_set,{
+        headers:{Authorization: token}
+      })
+      .then((response) => {
+        console.log(response.status);
+        console.log(response.data);
+        console.log("response",response)
+        
+        setIntutionData(response.data)
+        console.log("IntutionData",IntutionData)
+  
+        
+      })
+      
+      .catch((error) => {
+        
+        console.log("re:", error.message);
+        console.log("re:", error.body);
+        console.log("re:", error.config);
+        console.log("re:", error.requests);
+        
+      });
+    
+
+
+
+  }
+
+
+
+
+
 
 
 
@@ -95,11 +145,16 @@ export function Official() {
               </MenuList>
             </Menu>
           </CardHeader>
+          
+          {/* {IntutionData.map((name, code) => (
+                                      <div>{name}</div>
+                                    ))} */}
+                                    
           <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
             <table className="w-full min-w-[640px] table-auto">
               <thead>
                 <tr>
-                  {["이름", "전화번호", "요청날짜", "permission"].map(
+                  {["이름", "전화번호", "코드", "permission"].map(
                     (el) => (
                       <th
                         key={el}
@@ -118,26 +173,28 @@ export function Official() {
               </thead>
               <tbody>
                 {/* projects-table-data.js 에 데이터 리스트가 있음 아마 이 테이블을 사용하지 않을까? */}
-                {AdminTableData.map(
-                  ({ img, name, members, budget, completion }, key) => {
+                {IntutionData.map(
+                  ({ code, name, phoneNumber, budget, completion }, key) => {
                     const className = `py-3 px-5 ${
                       key === projectsTableData.length - 1
                         ? ""
                         : "border-b border-blue-gray-50"
                     }`;
+                    
 
                     return (
+                      
                       <tr key={name}>
                         <td className={className}>
                           <div className="flex items-center gap-4">
-                            <Avatar src={img} alt={name} size="sm" />
+                            
                             <Typography
                               variant="small"
                               color="blue-gray"
                               className="font-bold"
                               
                             >
-                              <div onClick={()=>handleToProfile(name)}>{name}</div>
+                              <div >{name}</div>
                               {/* <Link to="/dashboard/profile"
                                 state={{"name":name}}
                                >{name}</Link> */}
@@ -162,7 +219,7 @@ export function Official() {
                             variant="small"
                             className="text-xs font-medium text-blue-gray-600"
                           >
-                            {members}
+                            {phoneNumber}
                           </Typography>
                         </td>
                         <td className={className}>
@@ -170,7 +227,7 @@ export function Official() {
                             variant="small"
                             className="text-xs font-medium text-blue-gray-600"
                           >
-                            {budget}
+                            {code}
                           </Typography>
                         </td>
                         <td className={className}>
