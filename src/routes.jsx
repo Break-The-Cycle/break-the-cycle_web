@@ -7,7 +7,7 @@ import {
   UserPlusIcon,
 } from "@heroicons/react/24/solid";
 
-import { Home, Profile, Tables, Notifications,Main, Admin,Record,RecordDetail } from "@/pages/dashboard";
+import { Home, Profile, Tables, Notifications,Main, Admin,Record,RecordDetail, Official } from "@/pages/dashboard";
 
 import { SignIn, SignUp } from "@/pages/auth";
 
@@ -24,6 +24,13 @@ export const routes = [
         name: "dashboard",
         path: "/home",
         element: <Home />,
+        role:"admin"
+      },
+      {
+        icon: <HomeIcon {...icon} />,
+        name: "officialInstitution",
+        path: "/official",
+        element: <Official />,
         role:"admin"
       },
       {

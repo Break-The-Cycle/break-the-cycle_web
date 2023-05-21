@@ -3,6 +3,7 @@ import { Dashboard, Auth } from "@/layouts";
 import {RecoilRoot} from "recoil";
 import {BrowserRouter as Router } from "react-router-dom";
 function App() {
+  
   return (
     
       <RecoilRoot>

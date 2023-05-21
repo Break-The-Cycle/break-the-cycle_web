@@ -34,7 +34,7 @@ export function Auth() {
 
   return (
     <div className="relative min-h-screen w-full">
-      <div className="container relative z-40 mx-auto p-4">
+      <div className="container relative z-40 mx-auto p-4" hidden>
         <Navbar routes={navbarRoutes} />
       </div>
       <Routes>
@@ -46,7 +46,7 @@ export function Auth() {
             ))
         )}
       </Routes>
-      <div className="container absolute bottom-8 left-2/4 z-10 mx-auto -translate-x-2/4 text-white">
+      <div className="container absolute bottom-8 left-2/4 z-10 mx-auto -translate-x-2/4 text-white" hidden>
         <Footer />
       </div>
     </div>
