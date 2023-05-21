@@ -74,7 +74,7 @@ export function SignIn() {
         name : "경찰",
         role : "police"
       });
-      navigate("/dashboard/admin",{
+      navigate("/dashboard/main",{
         state:{
           name : "경찰",
           role : "police"

@@ -125,9 +125,7 @@ export function SignUp() {
               <Input label="SpecialKey" size="lg" name = "specialKey" onChange = {onChangeSignUp} />
               <Input label="userName" size="lg" name = "userName" onChange = {onChangeSignUp} />
               <Input label="userPhone" size="lg" name = "userPhone" onChange = {onChangeSignUp} />
-              <div className="-ml-2.5">
-                <Checkbox label="I agree the Terms and Conditions" />
-              </div>
+
             </CardBody>
             <CardFooter className="pt-0">
               <Button variant="gradient" type = "submit" fullWidth>
