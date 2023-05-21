@@ -24,63 +24,80 @@ export function SignIn() {
 
     // 여기서 post하기
 
-    // let posturl = "https://farm01.bitlworks.co.kr/api/v1/";
-    // let posturl_set = posturl + "auth" + "/" + "login";
-    // console.log("posturl:", posturl_set);
     
+    let posturl = "http://dev-break-the-cycle.ap-northeast-2.elasticbeanstalk.com/api/v1/";
+    let posturl_set = posturl + "auth/login";
+    console.log("posturl:", posturl_set);
+    let data_t={
+      "loginId":id,
+      "password":password
+    }
 
-    // axios
-    //   .post(posturl_set, data_t, config)
-    //   .then((response) => {
-    //     console.log(response.status);
-    //     console.log(response.data);
-    //     setCookie("cookie", response.data);
+    axios
+      .post(posturl_set, data_t)
+      .then((response) => {
+        
+        console.log("response.status",response.data.status);
+        console.log("response",response.data.message);
+        console.log("response",response.data);
+        
+        
+        setCookie("cookie", {
+          name : "admin",
+          role : "admin",
+          token : response.data.accessToken
+        });
+        navigate("/dashboard/admin",{
+          state:{
+            name : "admin",
+            role : "admin"
+          }
+        })
+        //window.location.replace("/Main");
+      })
+      
+      .catch((error) => {
+        alert("아이디와 비밀번호를 다시 확인하세요");
+        console.log("re:", error.message);
+        console.log("re:", error.body);
+        console.log("re:", error.config);
+        console.log("re:", error.requests);
+        
+      });
 
-    //     window.location.replace("/Main");
+
+
+    // // 임시 로그인
+    // if(id == "root" & password == "1111"){
+    //   setCookie("cookie", {
+    //     name : "admin",
+    //     role : "admin"
+    //   });
+    //   navigate("/dashboard/admin",{
+    //     state:{
+    //       name : "admin",
+    //       role : "admin"
+    //     }
     //   })
       
-    //   .catch((error) => {
-    //     alert("아이디와 비밀번호를 다시 확인하세요");
-    //     console.log("re:", error.message);
-    //     console.log("re:", error.body);
-    //     console.log("re:", error.config);
-    //     console.log("re:", error.requests);
-    //     console.log("re:", error.response.data);
+
+    // }else if(id == "police" & password == "1111"){
+    //   setCookie("cookie", {
+    //     name : "경찰",
+    //     role : "police"
     //   });
-
-
-
-    // 임시 로그인
-    if(id == "root" & password == "1111"){
-      setCookie("cookie", {
-        name : "admin",
-        role : "admin"
-      });
-      navigate("/dashboard/admin",{
-        state:{
-          name : "admin",
-          role : "admin"
-        }
-      })
-      
-
-    }else if(id == "police" & password == "1111"){
-      setCookie("cookie", {
-        name : "경찰",
-        role : "police"
-      });
-      navigate("/dashboard/admin",{
-        state:{
-          name : "경찰",
-          role : "police"
-        }
-      })
+    //   navigate("/dashboard/main",{
+    //     state:{
+    //       name : "경찰",
+    //       role : "police"
+    //     }
+    //   })
 
       
-    }
-    else{
-      alert("아이디와 비밀번호를 확인하세요")
-    }
+    // }
+    // else{
+    //   alert("아이디와 비밀번호를 확인하세요")
+    // }
 
 
   }

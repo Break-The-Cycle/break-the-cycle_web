@@ -73,12 +73,12 @@ import {
           <CardBody className="p-4">
             <div className="mb-10 flex items-center justify-between gap-6">
               <div className="flex items-center gap-6">
-                <Avatar
+                {/* <Avatar
                   src="/img/bruce-mars.jpeg"
                   alt="bruce-mars"
                   size="xl"
                   className="rounded-lg shadow-lg shadow-blue-gray-500/40"
-                />
+                /> */}
                 <div>
                   <Typography variant="h5" color="blue-gray" className="mb-1">
                     {name}
@@ -87,7 +87,7 @@ import {
                     variant="small"
                     className="font-normal text-blue-gray-600"
                   >
-                    경기도 고양시 화전 경찰서 / 경감
+                    
                   </Typography>
                 </div>
               </div>
@@ -176,22 +176,68 @@ import {
                 </div> */}
   
                 <ProfileInfoCard
-                  title="Profile 정보"
-                  description="안녕하세요. 화전경찰서 외사계 ~~~ 입니다. 국민의 자유와 권리의 보호 및 사회공공의 질서유지를 위한 경찰관의 직무수행에 필요한 사항을 규정함을 목적으로 하고 있습니다."
-                  details={{
-                    "last name": applicantProfile.name.substr(0,1),
-                    "first name":applicantProfile.name.substr(1,3),
-                    mobile: applicantProfile.mobile,
-                    email: "테이블에 추가해야할 정보",
-                    location: "테이블에 추가해야할 정보",
-                    social: (
-                      <div className="flex items-center gap-4">
-                        <i className="fa-brands fa-facebook text-blue-700" />
-                        <i className="fa-brands fa-twitter text-blue-400" />
-                        <i className="fa-brands fa-instagram text-purple-500" />
-                      </div>
-                    ),
-                  }}
+                  title="일기"
+                  description="2020.01.01 ~~~~ 에서 ~~~에 ~~~ 한 일이 있었다"
+                  // details={{
+                  //   "last name": applicantProfile.name.substr(0,1),
+                  //   "first name":applicantProfile.name.substr(1,3),
+                  //   mobile: applicantProfile.mobile,
+                  //   email: "테이블에 추가해야할 정보",
+                  //   location: "테이블에 추가해야할 정보",
+                  //   social: (
+                  //     <div className="flex items-center gap-4">
+                  //       <i className="fa-brands fa-facebook text-blue-700" />
+                  //       <i className="fa-brands fa-twitter text-blue-400" />
+                  //       <i className="fa-brands fa-instagram text-purple-500" />
+                  //     </div>
+                  //   ),
+                  // }}
+                  action={
+                    <Tooltip content="Edit Profile">
+                      <PencilIcon className="h-4 w-4 cursor-pointer text-blue-gray-500" />
+                    </Tooltip>
+                  }
+                />
+                  <ProfileInfoCard
+                  title="영상"
+                  description="2020.01.01 ~~~~ 에서 ~~~에 ~~~ 한 일이 있었다"
+                  // details={{
+                  //   "last name": applicantProfile.name.substr(0,1),
+                  //   "first name":applicantProfile.name.substr(1,3),
+                  //   mobile: applicantProfile.mobile,
+                  //   email: "테이블에 추가해야할 정보",
+                  //   location: "테이블에 추가해야할 정보",
+                  //   social: (
+                  //     <div className="flex items-center gap-4">
+                  //       <i className="fa-brands fa-facebook text-blue-700" />
+                  //       <i className="fa-brands fa-twitter text-blue-400" />
+                  //       <i className="fa-brands fa-instagram text-purple-500" />
+                  //     </div>
+                  //   ),
+                  // }}
+                  action={
+                    <Tooltip content="Edit Profile">
+                      <PencilIcon className="h-4 w-4 cursor-pointer text-blue-gray-500" />
+                    </Tooltip>
+                  }
+                />
+             <ProfileInfoCard
+                  title="사진"
+                  description="2020.01.01 ~~~~ 에서 ~~~에 ~~~ 한 일이 있었다"
+                  // details={{
+                  //   "last name": applicantProfile.name.substr(0,1),
+                  //   "first name":applicantProfile.name.substr(1,3),
+                  //   mobile: applicantProfile.mobile,
+                  //   email: "테이블에 추가해야할 정보",
+                  //   location: "테이블에 추가해야할 정보",
+                  //   social: (
+                  //     <div className="flex items-center gap-4">
+                  //       <i className="fa-brands fa-facebook text-blue-700" />
+                  //       <i className="fa-brands fa-twitter text-blue-400" />
+                  //       <i className="fa-brands fa-instagram text-purple-500" />
+                  //     </div>
+                  //   ),
+                  // }}
                   action={
                     <Tooltip content="Edit Profile">
                       <PencilIcon className="h-4 w-4 cursor-pointer text-blue-gray-500" />
@@ -199,7 +245,7 @@ import {
                   }
                 />
              
-              <div>
+              <div hidden>
                 <Typography variant="h6" color="blue-gray" className="mb-3">
                   담당 피해자
                 </Typography>

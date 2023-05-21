@@ -28,52 +28,75 @@ export function SignUp() {
   function handleSignUpSubmit(e) {
     console.log(e)
     e.preventDefault();
-    console.log("id/pw/sk",id,password,specialKey)
+    console.log("id/pw/sk",id,password,specialKey,userName,userPhone)
 
     // 여기서 post하기
 
-    // let posturl = "https://farm01.bitlworks.co.kr/api/v1/";
-    // let posturl_set = posturl + "auth" + "/" + "login";
-    // console.log("posturl:", posturl_set);
-    
+    let posturl = "http://dev-break-the-cycle.ap-northeast-2.elasticbeanstalk.com/api/v1/";
+    let posturl_set = posturl + "auth/register/manage-person";
+    console.log("posturl:", posturl_set);
+    let data_t = {
+      "name": userName,
+      "phoneNumber": userPhone,
+      "loginId": id,
+      "password": password,
+      "password2": password,
+      "manageDivision": "",
+      "address": {
+        "division": "",
+        "postalNumber": "",
+        "sido": "",
+        "sigungu": "",
+        "eupmyeondong": "",
+        "li": "",
+        "island": "",
+        "bungee": "",
+        "detail": ""
+      },
+      "officialInstitutionId": 1,
+      "department": "",
+      "position": ""
+    }
 
-    // axios
-    //   .post(posturl_set, data_t, config)
-    //   .then((response) => {
-    //     console.log(response.status);
-    //     console.log(response.data);
-    //     setCookie("cookie", response.data);
+    axios
+      .post(posturl_set, data_t)
+      .then((response) => {
+        console.log(response.status);
+        console.log(response.data);
+        setCookie("cookie", response.data);
 
-    //     window.location.replace("/Main");
-    //   })
+        window.location.replace("/sign-in");
+      })
       
-    //   .catch((error) => {
-    //     alert("아이디와 비밀번호를 다시 확인하세요");
-    //     console.log("re:", error.message);
-    //     console.log("re:", error.body);
-    //     console.log("re:", error.config);
-    //     console.log("re:", error.requests);
-    //     console.log("re:", error.response.data);
-    //   });
+      .catch((error) => {
+        alert("아이디와 비밀번호를 다시 확인하세요");
+        console.log("re:", error.message);
+        console.log("re:", error.body);
+        console.log("re:", error.config);
+        console.log("re:", error.requests);
+        
+      });
 
 
 
     // 임시 로그인
-    if(id == "root" & password == "1111"& specialKey == "1234"){
-      alert("회원가입 완료")
-    }else{
-      alert("아이디와 비밀번호를 확인하세요")
-    }
+    // if(id == "root" & password == "1111"& specialKey == "1234"){
+    //   alert("회원가입 완료")
+    // }else{
+    //   alert("아이디와 비밀번호를 확인하세요")
+    // }
 
 
   }
   const [signUpInfo, setSignUpInfo] = useState({
     id: "",
     password: "",
-    specialKey:""
+    specialKey:"",
+    userName : "",
+    userPhone:""
   });
    
-  const {id, password,specialKey} = signUpInfo; // 전역 id/pw 선언
+  const {id, password,specialKey,userName,userPhone} = signUpInfo; // 전역 id/pw 선언
   return (
     <>
       <img
@@ -100,9 +123,9 @@ export function SignUp() {
               <Input type="text" label="Id" name = "id" size="lg" onChange = {onChangeSignUp}/>
               <Input type="password" label="Password" name = "password" size="lg" onChange = {onChangeSignUp}/>
               <Input label="SpecialKey" size="lg" name = "specialKey" onChange = {onChangeSignUp} />
-              <div className="-ml-2.5">
-                <Checkbox label="I agree the Terms and Conditions" />
-              </div>
+              <Input label="userName" size="lg" name = "userName" onChange = {onChangeSignUp} />
+              <Input label="userPhone" size="lg" name = "userPhone" onChange = {onChangeSignUp} />
+
             </CardBody>
             <CardFooter className="pt-0">
               <Button variant="gradient" type = "submit" fullWidth>
