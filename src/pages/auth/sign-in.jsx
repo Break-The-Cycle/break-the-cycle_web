@@ -24,17 +24,22 @@ export function SignIn() {
 
     // 여기서 post하기
 
-    // let posturl = "https://farm01.bitlworks.co.kr/api/v1/";
-    // let posturl_set = posturl + "auth" + "/" + "login";
-    // console.log("posturl:", posturl_set);
     
+    // let posturl = "http://dev-break-the-cycle.ap-northeast-2.elasticbeanstalk.com/api/v1/";
+    // let posturl_set = posturl + "auth/login";
+    // console.log("posturl:", posturl_set);
+    // let data_t={
+    //   "loginId":id,
+    //   "password":password
+    // }
 
     // axios
-    //   .post(posturl_set, data_t, config)
+    //   .post(posturl_set, data_t)
     //   .then((response) => {
     //     console.log(response.status);
     //     console.log(response.data);
-    //     setCookie("cookie", response.data);
+        
+    //     setCookie("token", `JWT ${response.accessToken}`);
 
     //     window.location.replace("/Main");
     //   })
@@ -45,7 +50,7 @@ export function SignIn() {
     //     console.log("re:", error.body);
     //     console.log("re:", error.config);
     //     console.log("re:", error.requests);
-    //     console.log("re:", error.response.data);
+        
     //   });
 
 
