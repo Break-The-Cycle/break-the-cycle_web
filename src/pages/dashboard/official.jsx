@@ -1,6 +1,7 @@
 import React, { useEffect,useState } from "react";
 import axios from 'axios';
 import { Link, NavLink,useNavigate,useLocation } from "react-router-dom";
+import DaumPostcode from 'react-daum-postcode';
 import {
   Typography,
   Card,
@@ -40,7 +41,11 @@ import "../../../public/css/cssRhw/common.css";
 
 export function Official() {
   const [cookies, setCookie, removeCookie] = useCookies(["default"]);
-  
+  const [showModal, setShowModal] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
+  const [address, setAddress] = useState(''); // 주소
+  const [addressDetail, setAddressDetail] = useState(''); // 상세주소
+  const [isOpenPost, setIsOpenPost] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   
@@ -50,11 +55,95 @@ export function Official() {
   useEffect(() => {
     getOfficialInstitution()
   }, []);
+  const onChangeOpenPost = () => {
+    setShowModal2(true)
+    console.log(isOpenPost)
+    setIsOpenPost(!isOpenPost);
+    console.log(isOpenPost)
+  };
 
+  const onCompletePost = (data) => {
+    let fullAddr = data.address;
+    let extraAddr = '';
+
+    if (data.addressType === 'R') {
+      if (data.bname !== '') {
+        extraAddr += data.bname;
+      }
+      if (data.buildingName !== '') {
+        extraAddr += extraAddr !== '' ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddr += extraAddr !== '' ? ` (${extraAddr})` : '';
+    }
+
+    setAddress(data.zonecode);
+    setAddressDetail(fullAddress);
+    setIsOpenPost(false);
+  };
+  const postCodeStyle = {
+    display: 'block',
+    position: 'relative',
+    top: '0%',
+    width: '400px',
+    height: '400px',
+    padding: '7px',
+  };
+function addinstiuition(event){
+  event.preventDefalut();
+  console.log("e:",event)
+  let posturl = "http://dev-break-the-cycle.ap-northeast-2.elasticbeanstalk.com/api/v1/";
+  let posturl_set = posturl + "official-institutions";
+  console.log("!!!!!",cookies.cookie)
+  let token = cookies.cookie.token
+  console.log("token",token)
+  const data_t = {
+    name: e.target[0].value,
+    phoneNumber: e.target[1].value,
+    code: e.target[2].value,
+    startTime: "19:00:00",
+    endTime: "19:00:00",
+    address: {
+      division:"KOREA_GYEONGGID",
+      postalNumber:"12345",
+      sido:"",
+      sigungu:"",
+      eupmyeondong:"",
+      li:"",
+      island:"",
+      bungee:"",
+      detail:"",
+    }
+    
+  };
+  axios
+    .post(posturl_set,{
+      headers:{Authorization: token}
+    },data_t)
+    .then((response) => {
+      console.log(response.status);
+      console.log(response.data);
+      console.log("response",response)
+      
+      
+
+      
+    })
+    
+    .catch((error) => {
+      
+      console.log("re:", error.message);
+      console.log("re:", error.body);
+      console.log("re:", error.config);
+      console.log("re:", error.requests);
+      
+    });
+  
+
+}
   function getOfficialInstitution(){
     let posturl = "http://dev-break-the-cycle.ap-northeast-2.elasticbeanstalk.com/api/v1/";
     let posturl_set = posturl + "official-institutions";
-    console.log("!!!!!")
+    console.log("!!!!!",cookies.cookie)
     let token = cookies.cookie.token
     console.log("token",token)
     axios
@@ -66,7 +155,7 @@ export function Official() {
         console.log(response.data);
         console.log("response",response)
         
-        setIntutionData(response.data)
+        setIntutionData(response.data.data)
         console.log("IntutionData",IntutionData)
   
         
@@ -139,9 +228,19 @@ export function Official() {
                 </IconButton>
               </MenuHandler>
               <MenuList>
-                <MenuItem>Action</MenuItem>
-                <MenuItem>Another Action</MenuItem>
-                <MenuItem>Something else here</MenuItem>
+                <MenuItem 
+                className=" text-black  "
+                  type="button"
+                  onClick={() => setShowModal(true)}>
+                
+                
+                  
+                
+                  기관추가
+                
+                </MenuItem>
+             
+                
               </MenuList>
             </Menu>
           </CardHeader>
@@ -150,11 +249,11 @@ export function Official() {
                                       <div>{name}</div>
                                     ))} */}
                                     
-          <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
+          <CardBody className="overflow-x-scroll px-0 pt-0 pb-32">
             <table className="w-full min-w-[640px] table-auto">
               <thead>
                 <tr>
-                  {["이름", "전화번호", "코드", "permission"].map(
+                  {["이름", "전화번호", "코드", "time"].map(
                     (el) => (
                       <th
                         key={el}
@@ -174,7 +273,7 @@ export function Official() {
               <tbody>
                 {/* projects-table-data.js 에 데이터 리스트가 있음 아마 이 테이블을 사용하지 않을까? */}
                 {IntutionData.map(
-                  ({ code, name, phoneNumber, budget, completion }, key) => {
+                  ({ code, name, phoneNumber, startTime, endTime }, key) => {
                     const className = `py-3 px-5 ${
                       key === projectsTableData.length - 1
                         ? ""
@@ -232,23 +331,14 @@ export function Official() {
                         </td>
                         <td className={className}>
                           <div className="w-10/12">
-                            {/* <Typography
+                            <Typography
                               variant="small"
                               className="mb-1 block text-xs font-medium text-blue-gray-600"
                             >
-                              {completion}%
+                              {startTime}/{endTime}
                             </Typography>
-                            <Progress
-                              value={completion}
-                              variant="gradient"
-                              color={completion === 100 ? "green" : "blue"}
-                              className="h-1"
-                            /> */}
-                            <Button
-                              color = "pink"
-                            >
-                              OK
-                            </Button>
+                          
+                           
                           </div>
                         </td>
                       </tr>
@@ -261,6 +351,106 @@ export function Official() {
         </Card>
         {/* <div class = "text-SUB2">asdf</div> */}
       </div>
+
+      {showModal ? (
+        <>
+          <div
+            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none min-w-500"
+          >
+            <div className="relative w-auto my-6 mx-auto max-w-3xl ">
+              {/*content*/}
+              
+              <div className="min-w-[600px] border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                {/*header*/}
+                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                  <h3 className="text-3xl font-semibold">
+                    institution 추가
+                  </h3>
+                  <button
+                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                    onClick={() => setShowModal(false)}
+                  >
+                    <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                      ×
+                    </span>
+                  </button>
+                </div>
+                {/*body*/}
+                <form onSubmit = {function(event){
+                 alert("1")
+                 console.log("ee",event)
+                 addinstiuition(event)
+                }}>
+                  <div className="relative p-6 flex-auto">
+                    <p className="my-4 text-slate-500 text-lg leading-relaxed">
+                      기관 추가? 설명입니다
+                    </p>
+                  </div>
+                  <div className="relative p-6 flex-auto">
+                          <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">기관명</label>
+                          <input type="text" name="intutionName" id="intutionName" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" />
+                  </div>
+                  <div className="relative p-6 flex-auto">
+                          <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">전화번호</label>
+                          <input type="text" name="intutionPhone" id="intutionPhone" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" />
+                  </div>
+                  <div className="relative p-6 flex-auto">
+                          <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">코드</label>
+                          <input type="text" name="intutionCode" id="intutionCode" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" />
+                  </div>
+                  {/* <div>
+                    <button onClick ={() => onChangeOpenPost()} >주소찾기</button>
+
+        
+                  </div> */}
+                  {/*footer*/}
+                  <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                    {/* <button
+                      className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      type="button"
+                      onClick={() => setShowModal(false)}
+                    >
+                      Close
+                    </button> */}
+                    <button
+                      className="bg-emerald-500 text-black active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      type="submit"
+                      onClick={() => setShowModal(false)}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              </div>
+              
+            </div>
+          </div>
+          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+        </>
+      ) : null}
+      
+      {showModal2 ? (
+        <>
+          <div
+            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none min-w-500"
+          >
+            <div className="relative w-auto my-6 mx-auto max-w-3xl ">
+              {/*content*/}
+              <div className="min-w-[600px] border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+              {isOpenPost  ? (
+                   <DaumPostcode style={postCodeStyle} autoClose onComplete={onCompletePost } />
+                ) : null
+              }
+              </div>
+            </div>
+          </div>
+          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+        </>
+      ) : null}
+
+
+
+
     </div>
   );
 }
