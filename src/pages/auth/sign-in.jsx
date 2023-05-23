@@ -45,8 +45,9 @@ export function SignIn() {
         setCookie("cookie", {
           name : "admin",
           role : "admin",
-          token : response.data.accessToken
+          token : response.data.data.accessToken
         });
+        alert(response.data.data.accessToken)
         navigate("/dashboard/admin",{
           state:{
             name : "admin",
