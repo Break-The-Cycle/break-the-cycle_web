@@ -1,8 +1,10 @@
+
 import React, { useEffect,useState }  from "react";
 import { Link, NavLink,useNavigate,useLocation } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from 'axios';
 import { getAdminPermissionData } from "../../data/admin-token-data";
+
 import {
   Typography,
   Card,
@@ -42,6 +44,7 @@ export function Admin() {
     getAdminPermissionTable()
   }, []);
   const navigate = useNavigate();
+
   const location = useLocation();
   
   function postPermission(id){
