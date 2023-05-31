@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { React, useState, useEffect, useRef } from "react";
 import axios from 'axios';
+import { useCookies } from "react-cookie";
 import {
   Card,
   CardHeader,
@@ -13,7 +14,7 @@ import {
 } from "@material-tailwind/react";
 
 export function SignUp() {
-
+  const [cookies, setCookie, removeCookie] = useCookies(["default"]);
   function onChangeSignUp(e) {
     console.log("e_onchange",e)
     
@@ -41,21 +42,22 @@ export function SignUp() {
       "loginId": id,
       "password": password,
       "password2": password,
-      "manageDivision": "",
+      "manageDivision": "POLICE_OFFICER",
       "address": {
-        "division": "",
-        "postalNumber": "",
-        "sido": "",
-        "sigungu": "",
-        "eupmyeondong": "",
-        "li": "",
-        "island": "",
-        "bungee": "",
-        "detail": ""
+        "division": "KOREA_GYEONGGIDO",
+        "postalNumber": "12345",
+        "sido": "고양시",
+        "sigungu": "일산동구",
+        "eupmyeondong": "일동",
+        "li": "string",
+        "island": "string",
+        "bungee": "string",
+        "detail": "일산동부 경찰서"
       },
       "officialInstitutionId": 1,
-      "department": "",
-      "position": ""
+      "department": "외사계",
+      "position": "경감",
+      "description": "안녕하세요 OOO입니다. 일산 동부 경찰서에서 근무중입니다."
     }
 
     axios
@@ -63,9 +65,9 @@ export function SignUp() {
       .then((response) => {
         console.log(response.status);
         console.log(response.data);
-        setCookie("cookie", response.data);
+        setCookie("cookie", response.data.data.id);
 
-        window.location.replace("/sign-in");
+        window.location.href="/sign-in";
       })
       
       .catch((error) => {

@@ -21,9 +21,8 @@ export function SignIn() {
     console.log(e)
     e.preventDefault();
     console.log("id/pw",id,password)
-
+    
     // 여기서 post하기
-
     
     let posturl = "http://dev-break-the-cycle.ap-northeast-2.elasticbeanstalk.com/api/v1/";
     let posturl_set = posturl + "auth/login";
@@ -41,19 +40,35 @@ export function SignIn() {
         console.log("response",response.data.message);
         console.log("response",response.data);
         
-        
-        setCookie("cookie", {
-          name : "admin",
-          role : "admin",
-          token : response.data.data.accessToken
-        });
-        alert(response.data.data.accessToken)
-        navigate("/dashboard/admin",{
-          state:{
+        if(id == "admin123"){
+          setCookie("cookie", {
             name : "admin",
-            role : "admin"
-          }
-        })
+            role : "admin",
+            token : response.data.data.accessToken
+          });
+          // alert(response.data.data.accessToken)
+          navigate("/dashboard/admin",{
+            state:{
+              name : "admin",
+              role : "admin"
+            }
+          })
+        }else{
+          setCookie("cookie", {
+            name : "경찰",
+            role : "police",
+            token : response.data.data.accessToken
+          });
+          // alert(response.data.data.accessToken)
+          navigate("/dashboard/main",{
+            state:{
+              name : "경찰",
+              role : "police"
+            }
+          })
+          
+        }
+       
         //window.location.replace("/Main");
       })
       
@@ -68,7 +83,7 @@ export function SignIn() {
 
 
 
-    // // 임시 로그인
+    // 임시 로그인
     // if(id == "root" & password == "1111"){
     //   setCookie("cookie", {
     //     name : "admin",
