@@ -1,6 +1,9 @@
-import React from "react";
 
+import React, { useEffect,useState }  from "react";
 import { Link, NavLink,useNavigate,useLocation } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import axios from 'axios';
+import { getAdminPermissionData } from "../../data/admin-token-data";
 
 import {
   Typography,
@@ -35,14 +38,90 @@ import {
 import "../../../public/css/cssRhw/common.css";
 
 export function Admin() {
-
+  const [permissionData, setPermissionData] = useState([]);
+  const [cookies, setCookie, removeCookie] = useCookies(["default"]);
+  useEffect(() => {
+    getAdminPermissionTable()
+  }, []);
   const navigate = useNavigate();
 
   const location = useLocation();
   
+  function postPermission(id){
+    console.log("2")
+    let puturl = "http://dev-break-the-cycle.ap-northeast-2.elasticbeanstalk.com/api/v1/";
+    let puturl_set = puturl + "bo-manage-persons/permission/"+id;
+    console.log("!!!!!",cookies.cookie)
+    let token = cookies.cookie.token
+    console.log("token",token)
+    let putData = {
+      managePersonId:id
+    }
+    axios
+      .put(puturl_set,putData,{
+        headers:{'Authorization': token}
+      })
+      
+      .then((response) => {
+        console.log(response.status);
+        
+        console.log("response",response)
+        console.log("response.data",response.data)
+        
+        // getAdminPermissionTable()
+  
+        
+      })
+      
+      .catch((error) => {
+        console.log("error:",error);
+        console.log("re:", error.message);
+        console.log("re:", error.body);
+        console.log("re:", error.config);
+        console.log("re:", error.requests);
+        
+      });
+  }
+
+
   console.log("location",location)
   console.log("location",location.state)
+  function getAdminPermissionTable(){
+    let geturl = "http://dev-break-the-cycle.ap-northeast-2.elasticbeanstalk.com/api/v1/";
+    let geturl_set = geturl + "bo-manage-persons/permission";
+    console.log("!!!!!",cookies.cookie)
+    let token = cookies.cookie.token
+    console.log("token",token)
+    getAdminPermissionData({"token":token})
+    // axios
+    //   .get(geturl_set,{
+    //     headers:{'Authorization': token}
+    //   })
+      
+    //   .then((response) => {
+    //     console.log(response.status);
+    //     console.log(response.data);
+    //     console.log("response",response)
+    //     console.log("permissionData",response.data.data)
+    //     setPermissionData(response.data.data)
+    //     console.log("permissionData",permissionData)
+  
+        
+    //   })
+      
+    //   .catch((error) => {
+        
+    //     console.log("re:", error.message);
+    //     console.log("re:", error.body);
+    //     console.log("re:", error.config);
+    //     console.log("re:", error.requests);
+        
+    //   });
+    
 
+
+
+  }
 
 
   const handleToProfile=(item)=>{
@@ -121,7 +200,7 @@ export function Admin() {
               <tbody>
                 {/* projects-table-data.js 에 데이터 리스트가 있음 아마 이 테이블을 사용하지 않을까? */}
                 {AdminTableData.map(
-                  ({ img, name, members, budget, completion }, key) => {
+                  ({ img, name, phoneNumber, createdAt, id }, key) => {
                     const className = `py-3 px-5 ${
                       key === projectsTableData.length - 1
                         ? ""
@@ -132,7 +211,7 @@ export function Admin() {
                       <tr key={name}>
                         <td className={className}>
                           <div className="flex items-center gap-4">
-                            <Avatar src={img} alt={name} size="sm" />
+                            <Avatar src={"/img/pngegg.png"} alt={name} size="sm" />
                             <Typography
                               variant="small"
                               color="blue-gray"
@@ -164,7 +243,7 @@ export function Admin() {
                             variant="small"
                             className="text-xs font-medium text-blue-gray-600"
                           >
-                            {members}
+                            {phoneNumber}
                           </Typography>
                         </td>
                         <td className={className}>
@@ -172,7 +251,7 @@ export function Admin() {
                             variant="small"
                             className="text-xs font-medium text-blue-gray-600"
                           >
-                            {budget}
+                            {createdAt}
                           </Typography>
                         </td>
                         <td className={className}>
@@ -191,6 +270,10 @@ export function Admin() {
                             /> */}
                             <Button
                               color = "pink"
+                              onClick = {()=>{
+                                console.log("1")
+                                postPermission(id)
+                              }}
                             >
                               OK
                             </Button>

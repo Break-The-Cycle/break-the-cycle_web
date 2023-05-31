@@ -89,7 +89,8 @@ export function Official() {
     padding: '7px',
   };
 function addinstiuition(event){
-  event.preventDefalut();
+  
+  
   console.log("e:",event)
   let posturl = "http://dev-break-the-cycle.ap-northeast-2.elasticbeanstalk.com/api/v1/";
   let posturl_set = posturl + "official-institutions";
@@ -97,40 +98,46 @@ function addinstiuition(event){
   let token = cookies.cookie.token
   console.log("token",token)
   const data_t = {
-    name: e.target[0].value,
-    phoneNumber: e.target[1].value,
-    code: e.target[2].value,
+    name: event.target[0].value,
+    phoneNumber: event.target[2].value,
+    code: "NATIONAL_POLICE_STATION",
     startTime: "19:00:00",
     endTime: "19:00:00",
     address: {
-      division:"KOREA_GYEONGGID",
+      division:"KOREA_GEONGSANGNAMDO",
       postalNumber:"12345",
-      sido:"",
-      sigungu:"",
-      eupmyeondong:"",
-      li:"",
-      island:"",
-      bungee:"",
-      detail:"",
+      sido:"고양시",
+      sigungu:"일산동구",
+      eupmyeondong:"일동",
+      li:"string",
+      island:"string",
+      bungee:"string",
+      detail:"일산동부 경찰서",
     }
     
   };
+
+ 
+
+
+  console.log("data",data_t)
   axios
-    .post(posturl_set,{
-      headers:{Authorization: token}
-    },data_t)
+    .post(posturl_set,data_t,{
+      headers:{'Authorization': token}
+    })
     .then((response) => {
       console.log(response.status);
       console.log(response.data);
-      console.log("response",response)
+      console.log("response",response);
       
       
-
+      //location.reload();
+      window.location.reload();
       
     })
     
     .catch((error) => {
-      
+      console.log("re:", error.message);
       console.log("re:", error.message);
       console.log("re:", error.body);
       console.log("re:", error.config);
@@ -377,9 +384,11 @@ function addinstiuition(event){
                 </div>
                 {/*body*/}
                 <form onSubmit = {function(event){
-                 alert("1")
+                 
+                 event.preventDefault()
                  console.log("ee",event)
                  addinstiuition(event)
+                 setShowModal(false)
                 }}>
                   <div className="relative p-6 flex-auto">
                     <p className="my-4 text-slate-500 text-lg leading-relaxed">
@@ -390,8 +399,13 @@ function addinstiuition(event){
                           <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">기관명</label>
                           <input type="text" name="intutionName" id="intutionName" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" />
                   </div>
+                  <div
+                   className="relative p-6 flex-auto">
+                          <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">개인전화번호</label>
+                          <input type="text" name="intutionPhone" id="intutionPhone" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" />
+                  </div>
                   <div className="relative p-6 flex-auto">
-                          <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">전화번호</label>
+                          <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">기관전화번호</label>
                           <input type="text" name="intutionPhone" id="intutionPhone" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" />
                   </div>
                   <div className="relative p-6 flex-auto">
@@ -415,7 +429,7 @@ function addinstiuition(event){
                     <button
                       className="bg-emerald-500 text-black active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="submit"
-                      onClick={() => setShowModal(false)}
+                      // onClick={() => setShowModal(false)}
                     >
                       Submit
                     </button>
