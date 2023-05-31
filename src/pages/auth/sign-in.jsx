@@ -56,6 +56,7 @@ export function SignIn() {
         }else{
           setCookie("cookie", {
             name : "경찰",
+            id : response.data.data.userId,
             role : "police",
             token : response.data.data.accessToken
           });
