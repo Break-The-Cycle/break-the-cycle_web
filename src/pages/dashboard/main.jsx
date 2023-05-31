@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect,useState } from "react";
+import { useCookies } from "react-cookie";
 import {
   Typography,
   Card,
@@ -33,6 +34,8 @@ import "../../../public/css/cssRhw/common.css";
 
 export function Main() {
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  const [cookies, setCookie, removeCookie] = useCookies(["default"]);
   const handleToRecord=(item)=>{
     console.log("handleToRecord",item)
     // 어드민 플로우인지 구분하는 flag와 해당 경찰의 id를 넘기고 해당 id로 profile page 에서 체크!
@@ -41,6 +44,56 @@ export function Main() {
         name:`${item}`
       }
     })
+  }
+  function addTokenData(event){
+  
+  
+    console.log("e:",event)
+    console.log("!!!!!",cookies.cookie)
+    let userId = cookies.cookie.id
+    let posturl = "http://dev-break-the-cycle.ap-northeast-2.elasticbeanstalk.com/api/v1/";
+    let posturl_set = posturl + "manage-persons/"+userId+"/violent-records";
+    
+    let token = cookies.cookie.token
+    
+    console.log("token",token)
+    console.log("userId",userId)
+    const data_t = {
+      managePersonId: userId,
+      Submission: event.target[0].value,
+      
+      
+    };
+  
+   
+  
+  
+    console.log("data",data_t)
+    // axios
+    //   .post(posturl_set,data_t,{
+    //     headers:{'Authorization': token}
+    //   })
+    //   .then((response) => {
+    //     console.log(response.status);
+    //     console.log(response.data);
+    //     console.log("response",response);
+        
+        
+    //     //location.reload();
+    //     window.location.reload();
+        
+    //   })
+      
+    //   .catch((error) => {
+    //     console.log("re:", error.message);
+    //     console.log("re:", error.message);
+    //     console.log("re:", error.body);
+    //     console.log("re:", error.config);
+    //     console.log("re:", error.requests);
+        
+    //   });
+    
+  
   }
   return (
     <div className="mt-12">
@@ -79,9 +132,14 @@ export function Main() {
                 </IconButton>
               </MenuHandler>
               <MenuList>
-                <MenuItem>Action</MenuItem>
-                <MenuItem>Another Action</MenuItem>
-                <MenuItem>Something else here</MenuItem>
+                <MenuItem
+                className=" text-black  "
+                type="button"
+                onClick={() => setShowModal(true)}
+                
+                
+                >피해자 연결</MenuItem>
+                
               </MenuList>
             </Menu>
           </CardHeader>
@@ -187,6 +245,77 @@ export function Main() {
         </Card>
         
       </div>
+      {showModal ? (
+        <>
+          <div
+            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none min-w-500"
+          >
+            <div className="relative w-auto my-6 mx-auto max-w-3xl ">
+              {/*content*/}
+              
+              <div className="min-w-[600px] border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                {/*header*/}
+                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                  <h3 className="text-3xl font-semibold">
+                    institution 추가
+                  </h3>
+                  <button
+                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                    onClick={() => setShowModal(false)}
+                  >
+                    <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                      ×
+                    </span>
+                  </button>
+                </div>
+                {/*body*/}
+                <form onSubmit = {function(event){
+                 
+                 event.preventDefault()
+                 console.log("ee",event)
+                 addTokenData(event)
+                 setShowModal(false)
+                }}>
+                  <div className="relative p-6 flex-auto">
+                    <p className="my-4 text-slate-500 text-lg leading-relaxed">
+                      피해자로부터 받은 토큰을 입력해 주세요
+                    </p>
+                  </div>
+                  <div className="relative p-6 flex-auto">
+                          <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">토큰</label>
+                          <input type="text" name="intutionName" id="intutionName" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" />
+                  </div>
+                  
+                  {/* <div>
+                    <button onClick ={() => onChangeOpenPost()} >주소찾기</button>
+
+        
+                  </div> */}
+                  {/*footer*/}
+                  <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                    {/* <button
+                      className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      type="button"
+                      onClick={() => setShowModal(false)}
+                    >
+                      Close
+                    </button> */}
+                    <button
+                      className="bg-emerald-500 text-black active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      type="submit"
+                      // onClick={() => setShowModal(false)}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              </div>
+              
+            </div>
+          </div>
+          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+        </>
+      ) : null}
     </div>
   );
 }
