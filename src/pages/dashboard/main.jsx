@@ -1,5 +1,6 @@
 import React, { useEffect,useState } from "react";
 import { useCookies } from "react-cookie";
+import axios from 'axios';
 import {
   Typography,
   Card,
@@ -36,6 +37,9 @@ export function Main() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["default"]);
+  let token = cookies.cookie.token
+    
+    console.log("token",token)
   const handleToRecord=(item)=>{
     console.log("handleToRecord",item)
     // 어드민 플로우인지 구분하는 flag와 해당 경찰의 id를 넘기고 해당 id로 profile page 에서 체크!
@@ -45,14 +49,14 @@ export function Main() {
       }
     })
   }
-  function addTokenData(event){
+  const addTokenData = async(event)=>{
   
   
     console.log("e:",event)
     console.log("!!!!!",cookies.cookie)
     let userId = cookies.cookie.id
-    let posturl = "http://dev-break-the-cycle.ap-northeast-2.elasticbeanstalk.com/api/v1/";
-    let posturl_set = posturl + "manage-persons/"+userId+"/violent-records";
+    let geturl = "http://dev-break-the-cycle.ap-northeast-2.elasticbeanstalk.com/api/v1/";
+    let geturl_set = geturl + "manage-persons/"+userId+"/violent-records";
     
     let token = cookies.cookie.token
     
@@ -65,33 +69,60 @@ export function Main() {
       
     };
   
-   
+   const headers = {
+    
+    Authorization: token
+   }
   
   
     console.log("data",data_t)
     // axios
-    //   .post(posturl_set,data_t,{
-    //     headers:{'Authorization': token}
-    //   })
-    //   .then((response) => {
-    //     console.log(response.status);
-    //     console.log(response.data);
-    //     console.log("response",response);
-        
-        
-    //     //location.reload();
-    //     window.location.reload();
-        
-    //   })
+    // .get(geturl_set,{
+    //   headers:{Authorization: token}
+    // })
+    // .then((response) => {
+    //   console.log(response.status);
+    //   console.log(response.data);
+    //   console.log("response1",response)
       
-    //   .catch((error) => {
-    //     console.log("re:", error.message);
-    //     console.log("re:", error.message);
-    //     console.log("re:", error.body);
-    //     console.log("re:", error.config);
-    //     console.log("re:", error.requests);
-        
-    //   });
+    //   setIntutionData(response.data.data)
+    //   console.log("IntutionData",IntutionData)
+
+      
+    // })
+    
+    // .catch((error) => {
+      
+    //   console.log("re:", error.message);
+    //   console.log("re:", error.body);
+    //   console.log("re:", error.config);
+    //   console.log("re:", error.requests);
+      
+    // });
+    axios({
+      url: "http://dev-break-the-cycle.ap-northeast-2.elasticbeanstalk.com/api/v1/manage-persons/2/violent-records",
+      method: 'get',
+      
+      headers: { 'Authorization': token,'Submission': event.target[0].value },
+      
+    }).then((response) => {
+      console.log(response.status);
+      console.log(response.data);
+      console.log("response1",response)
+      
+      setIntutionData(response.data.data)
+      console.log("IntutionData",IntutionData)
+
+      
+    }).catch((error) => {
+      
+      console.log("re:", error.message);
+      console.log("re:", error.body);
+      console.log("re:", error.config);
+      console.log("re:", error.requests);
+      
+    });
+   
     
   
   }
