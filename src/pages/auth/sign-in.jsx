@@ -60,7 +60,7 @@ export function SignIn() {
             role : "police",
             token : response.data.data.accessToken
           });
-          // alert(response.data.data.accessToken)
+          alert(response.data.data.accessToken)
           navigate("/dashboard/main",{
             state:{
               name : "경찰",

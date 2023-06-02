@@ -160,7 +160,7 @@ function addinstiuition(event){
       .then((response) => {
         console.log(response.status);
         console.log(response.data);
-        console.log("response",response)
+        console.log("response1",response)
         
         setIntutionData(response.data.data)
         console.log("IntutionData",IntutionData)

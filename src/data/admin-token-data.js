@@ -22,7 +22,7 @@ export const getAdminPermissionData = async (adminFormCall = AdminTableCallInitD
   console.log("adminForm",adminFormCall);
   try {
     const { data } = await axios.get(geturl_set, {
-      headers:{'Authorization': adminFormCall.token}
+      headers:{Authorization: adminFormCall.token}
     });
     
     console.log("dataaaa:", data.data);
