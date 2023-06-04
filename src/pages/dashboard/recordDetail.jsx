@@ -40,9 +40,9 @@ import {
       location:"",
       information:""
     }
-    const name = location.state?.name; // 추가된 부분
+    const name = location.state.name; // 추가된 부분
     console.log("location",location)
-    console.log("location",location.state)
+    console.log("location",location.state.recordName)
     console.log("name",name,flag)
     console.log("AdminTableData",AdminTableData)
   
@@ -192,12 +192,14 @@ import {
                   //     </div>
                   //   ),
                   // }}
+                  
                   action={
                     <Tooltip content="Edit Profile">
                       <PencilIcon className="h-4 w-4 cursor-pointer text-blue-gray-500" />
                     </Tooltip>
                   }
                 />
+                <img src = {`data:image/jpeg;base64,${location.state.recordName}`}></img>
                   <ProfileInfoCard
                   title="영상"
                   description="2020.01.01 ~~~~ 에서 ~~~에 ~~~ 한 일이 있었다"

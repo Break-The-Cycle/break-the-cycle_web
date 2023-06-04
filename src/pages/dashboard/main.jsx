@@ -110,8 +110,8 @@ export function Main() {
       console.log(response.data);
       console.log("response1",response)
       
-      setIntutionData(response.data.data)
-      console.log("IntutionData",IntutionData)
+      // setMainTableData()
+      
 
       
     }).catch((error) => {
