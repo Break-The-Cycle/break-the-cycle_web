@@ -1,5 +1,6 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect,useState,useReducer  } from "react";
 import { useCookies } from "react-cookie";
+import { getMainTableData } from "../../data/main-victim-data";
 import axios from 'axios';
 import {
   Typography,
@@ -38,7 +39,18 @@ export function Main() {
   const [showModal, setShowModal] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["default"]);
   let token = cookies.cookie.token
+  const [any, forceUpdate] = useReducer(num => num + 1, 0);
+  useEffect(() => {
+    let token = cookies.cookie.token
+    console.log("tokeneffect",token)
     
+    getMainTableData({"token":token}).then(()=>{
+      console.log("done")
+      forceUpdate(); // 강제 리랜더링
+    })
+    
+  }, []);
+  console.log("MainTableData!!",MainTableData)
     console.log("token",token)
   const handleToRecord=(item)=>{
     console.log("handleToRecord",item)
@@ -198,7 +210,7 @@ export function Main() {
               <tbody>
                 {/* projects-table-data.js 에 데이터 리스트가 있음 아마 이 테이블을 사용하지 않을까? */}
                 {MainTableData.map(
-                  ({ img, name, members, budget, completion }, key) => {
+                  ({ id,name, phoneNumber}, key) => {
                     const className = `py-3 px-5 ${
                       key === projectsTableData.length - 1
                         ? ""
@@ -209,7 +221,7 @@ export function Main() {
                       <tr key={name}>
                         <td className={className}>
                           <div className="flex items-center gap-4">
-                            <Avatar src={img} alt={name} size="sm" />
+                            
                             <Typography
                               variant="small"
                               color="blue-gray"
@@ -239,7 +251,7 @@ export function Main() {
                             variant="small"
                             className="text-xs font-medium text-blue-gray-600"
                           >
-                            {members}
+                            {phoneNumber}
                           </Typography>
                         </td>
                         <td className={className}>
@@ -247,7 +259,7 @@ export function Main() {
                             variant="small"
                             className="text-xs font-medium text-blue-gray-600"
                           >
-                            {budget}
+                            {phoneNumber}
                           </Typography>
                         </td>
                         <td className={className}>
@@ -256,7 +268,7 @@ export function Main() {
                               variant="small"
                               className="mb-1 block text-xs font-medium text-blue-gray-600"
                             >
-                              {completion}세
+                              {phoneNumber}세
                             </Typography>
                             {/* <Progress
                               value={completion}
