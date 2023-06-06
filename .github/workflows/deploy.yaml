@@ -1,12 +1,15 @@
-name: React build
-on: 
-  push:                               # master Branch에서 push 이벤트가 일어났을 때만 실행
+name: rosedays_web_deploy #프로젝트 이름
+
+on:
+  push:
     branches:
-      - master
+      - master #브랜치
+  workflow_dispatch: #push 외에도 수동 실행 enable
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest #github action 스크립트가 작동될 os 환경
+    
     steps:
       - name: Checkout source code.   # 레포지토리 체크아웃
         uses: actions/checkout@master
