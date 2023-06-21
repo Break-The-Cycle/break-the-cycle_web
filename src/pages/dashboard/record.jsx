@@ -1,4 +1,4 @@
-import React ,{ useEffect,useState } from "react";
+import React ,{ useEffect,useState,useReducer } from "react";
 import { getRecordTableData } from "../../data/record-data";
 import { useCookies } from "react-cookie";
 import {
@@ -36,26 +36,47 @@ import "../../../public/css/cssRhw/common.css";
 
 export function Record() {
   const [cookies, setCookie, removeCookie] = useCookies(["default"]);
+  let token = cookies.cookie.token
+  
+  useEffect(() => {
+      
+    console.log("token",token)
+    console.log("effect")
+    
+    
+    getRecordTableData({"token":token}).then(()=>{
+      console.log("donestart")
+      forceUpdate(); // 강제 리랜더링
+      console.log("done",RecordData)
+      console.log("doneend")
+    })
+  }, []);
     const location = useLocation();
     const navigate = useNavigate();
-    useEffect(() => {
-      let token = cookies.cookie.token
-      console.log("token",token)
-      
-      getRecordTableData({"token":token})
-    }, []);
+    const [any, forceUpdate] = useReducer(num => num + 1, 0);
+    
+    
   const handleToRecordDetail=(item)=>{
     console.log("handleToRecordDetail",item)
     // 어드민 플로우인지 구분하는 flag와 해당 경찰의 id를 넘기고 해당 id로 profile page 에서 체크!
     navigate('/dashboard/recordDetail',{
       state:{
-        recordName:`${item}`
+        image:`${item.image}`,
+        id:`${item.id}`,
+        division:`${item.division}`,
+        reportDate:`${item.reportDate}`,
+        diary:`${item.diary}`,
+        
+
       }
     })
   }
     const name = location.state?.name; // 추가된 부분
+    
+    
   console.log("location",location)
   console.log("location",location.state)
+  console.log("RecordData",RecordData)
   
 
   let recordArray = []
@@ -144,7 +165,7 @@ export function Record() {
               <tbody>
                 
                 {RecordData.map(
-                  ({ image, name, title, classification, time,id,division }, key) => {
+                  ({ image, name, reportDate, diary, time,id,division }, key) => {
                     const className = `py-3 px-5 ${
                       key === projectsTableData.length - 1
                         ? ""
@@ -162,7 +183,7 @@ export function Record() {
                               className="font-bold"
                             >
                               {/* <div onClick = {()=>handleToRecordDetail(title)}>{title}</div> */}
-                              <div onClick = {()=>handleToRecordDetail(image)}>{id}</div>
+                              <div onClick = {()=>handleToRecordDetail({'image':image,'id':id,'division':division,'reportDate':reportDate,'diary':diary})}>{id}a</div>
                                
                               
                             </Typography>
@@ -175,7 +196,7 @@ export function Record() {
                             className="text-xs font-medium text-blue-gray-600"
                           >
                             {/* {classification} */}
-                            {division}
+                            {division}b
                           </Typography>
                         </td>
                         <td className={className}>
