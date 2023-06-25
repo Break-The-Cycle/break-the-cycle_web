@@ -1,8 +1,13 @@
+
 import React, { useEffect,useState,useReducer }  from "react";
+
+
+
 import { Link, NavLink,useNavigate,useLocation } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from 'axios';
 import { getAdminPermissionData } from "../../data/admin-token-data";
+
 import {
   Typography,
   Card,
@@ -45,6 +50,7 @@ export function Admin() {
   }, []);
   const [any, forceUpdate] = useReducer(num => num + 1, 0);
   const navigate = useNavigate();
+
   const location = useLocation();
   let [click, setClick] = useState('')
   function postPermission(id){

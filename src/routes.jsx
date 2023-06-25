@@ -55,6 +55,18 @@ export const routes = [
         role : "police"
       },
       {
+        icon: <HomeIcon {...icon} />,
+        name: "Record",
+        path: "/record",
+        element: <Record />,
+      },
+      {
+        icon: <HomeIcon {...icon} />,
+        name: "RecordDetail",
+        path: "/recordDetail",
+        element: <RecordDetail />,
+      },
+      {
 
         icon: <HomeIcon {...icon} />,
         name: "Admin",
