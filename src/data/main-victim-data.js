@@ -81,7 +81,10 @@ export let MainTableData = [
         
         // setMainTableData()
         
-        MainTableData= [response.data.data.usePerson]
+        if(mainFormCall.flag == "2"){
+          MainTableData= [response.data.data.usePerson]
+        }
+        
         console.log("MainTableData",MainTableData)
         
       }).catch((error) => {

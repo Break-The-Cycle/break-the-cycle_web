@@ -196,7 +196,7 @@ export function Record() {
                             className="text-xs font-medium text-blue-gray-600"
                           >
                             {/* {classification} */}
-                            {division}b
+                            {division}
                           </Typography>
                         </td>
                         <td className={className}>
@@ -205,7 +205,7 @@ export function Record() {
                             className="text-xs font-medium text-blue-gray-600"
                           >
                             {/* {name} */}
-                            {id}
+                            {"박가영"}
                           </Typography>
                         </td>
                         <td className={className}>
@@ -214,7 +214,7 @@ export function Record() {
                               variant="small"
                               className="mb-1 block text-xs font-medium text-blue-gray-600"
                             >
-                              {time}
+                              {reportDate}
                             </Typography>
                             {/* <Progress
                               value={completion}

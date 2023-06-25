@@ -40,11 +40,16 @@ export function Main() {
   const [cookies, setCookie, removeCookie] = useCookies(["default"]);
   let token = cookies.cookie.token
   const [any, forceUpdate] = useReducer(num => num + 1, 0);
+
+  
+
+
+
   useEffect(() => {
     let token = cookies.cookie.token
     console.log("tokeneffect",token)
     
-    getMainTableData({"token":token}).then(()=>{
+    getMainTableData({"token":token,"flag":"1"}).then(()=>{
       console.log("done")
       forceUpdate(); // 강제 리랜더링
     })
@@ -77,7 +82,8 @@ export function Main() {
     const data_t = {
       managePersonId: userId,
       Submission: event.target[0].value,
-      
+      usePerson:true,
+      record:false
       
     };
   
@@ -88,10 +94,49 @@ export function Main() {
   
   
     console.log("data",data_t)
+    await axios({
+      url: "http://dev-break-the-cycle.ap-northeast-2.elasticbeanstalk.com/api/v1/manage-persons/2/violent-records",
+      method: 'get',
+      
+      headers: { 
+        'Authorization': token,
+        'Submission' : event.target[0].value,
+  
+      },
+      params:{
+        'usePerson':true, 
+        'record':false
+      }
+      
+    }).then((response) => {
+      console.log(response.status);
+      console.log(response.data);
+      console.log("data.data",response.data.data);
+      console.log("response1",response)
+      
+      // setMainTableData()
+      
+    
+      getMainTableData({"token":token,"flag":"2"}).then(()=>{
+        console.log("done")
+        forceUpdate(); // 강제 리랜더링
+      })
+      
+    }).catch((error) => {
+      
+      console.log("re:", error.message);
+      console.log("re:", error.body);
+      console.log("re:", error.config);
+      console.log("re:", error.requests);
+      
+    });
+
+
+
     // axios
     // .get(geturl_set,{
     //   headers:{Authorization: token}
-    // })
+    // },data_t)
     // .then((response) => {
     //   console.log(response.status);
     //   console.log(response.data);
@@ -111,30 +156,31 @@ export function Main() {
     //   console.log("re:", error.requests);
       
     // });
-    axios({
-      url: "http://dev-break-the-cycle.ap-northeast-2.elasticbeanstalk.com/api/v1/manage-persons/2/violent-records",
-      method: 'get',
+
+
+    // axios({
+    //   url: "http://dev-break-the-cycle.ap-northeast-2.elasticbeanstalk.com/api/v1/manage-persons/2/violent-records",
+    //   method: 'get',
+    //   data:data_t,
+    //   headers: { 'Authorization': token },
       
-      headers: { 'Authorization': token,'Submission': event.target[0].value },
-      
-    }).then((response) => {
-      console.log(response.status);
-      console.log(response.data);
-      console.log("response1",response)
-      
-      // setMainTableData()
+    // }).then((response) => {
+    //   console.log(response.status);
+    //   console.log(response.data);
+    //   console.log("response1",response)
+    //   // setMainTableData()
       
 
       
-    }).catch((error) => {
+    // }).catch((error) => {
       
-      console.log("re:", error.message);
-      console.log("re:", error.body);
-      console.log("re:", error.config);
-      console.log("re:", error.requests);
+    //   console.log("re:", error.message);
+    //   console.log("re:", error.body);
+    //   console.log("re:", error.config);
+    //   console.log("re:", error.requests);
       
-    });
-   
+    // });
+    forceUpdate()
     
   
   }
@@ -227,7 +273,7 @@ export function Main() {
                               color="blue-gray"
                               className="font-bold"
                             >
-                              <div onClick={()=>handleToRecord(name)}>{name}</div>
+                              <div onClick={()=>handleToRecord(name)}>{name==="홍길동"?"박가영":""}</div>
                               
                               
                             </Typography>
@@ -259,7 +305,7 @@ export function Main() {
                             variant="small"
                             className="text-xs font-medium text-blue-gray-600"
                           >
-                            {phoneNumber}
+                            베트남
                           </Typography>
                         </td>
                         <td className={className}>
@@ -268,7 +314,7 @@ export function Main() {
                               variant="small"
                               className="mb-1 block text-xs font-medium text-blue-gray-600"
                             >
-                              {phoneNumber}세
+                              23세
                             </Typography>
                             {/* <Progress
                               value={completion}

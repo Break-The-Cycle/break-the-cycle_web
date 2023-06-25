@@ -118,7 +118,9 @@ import {
                 <>
                 <ProfileInfoCard
                   title="사진"
-                  description="2020.01.01 ~~~~ 에서 ~~~에 ~~~ 한 일이 있었다"
+                  description="날짜: 2023년 6월 15일
+
+                  오늘 그가 다시 화를 내고, 손놀림과 욕설로 나를 공격했다. 고통과 두려움으로 가슴이 아팠다. 나는 힘들지만, 나 자신을 버티기로 다짐한다. 이 일기는 나의 강함과 생존을 기록하는 증거가 될 것이다. 더 이상 피해자가 아닌, 생존자로서 앞으로 나아가려고 한다."
                  
                   
                   action={
@@ -127,7 +129,10 @@ import {
                     </Tooltip>
                   }
                 />
-                <img src = {`data:image/jpeg;base64,${victim.image}`}></img>
+
+                {/* <img src = {`data:image/jpeg;base64,${victim.image}`}></img> */}
+                <img src = "../../../public/img/scar.jpg"></img>
+                
                 </>
                 
                 ): victim.division == "DIARY"? 
