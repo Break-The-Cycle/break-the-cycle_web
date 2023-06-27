@@ -1,5 +1,8 @@
 
-import React, { useEffect,useState }  from "react";
+import React, { useEffect,useState,useReducer }  from "react";
+
+
+
 import { Link, NavLink,useNavigate,useLocation } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from 'axios';
@@ -42,13 +45,16 @@ export function Admin() {
   const [cookies, setCookie, removeCookie] = useCookies(["default"]);
   useEffect(() => {
     getAdminPermissionTable()
+   
+    
   }, []);
+  const [any, forceUpdate] = useReducer(num => num + 1, 0);
   const navigate = useNavigate();
 
   const location = useLocation();
-  
+  let [click, setClick] = useState('')
   function postPermission(id){
-    console.log("2")
+    console.log("2",id)
     let puturl = "http://dev-break-the-cycle.ap-northeast-2.elasticbeanstalk.com/api/v1/";
     let puturl_set = puturl + "bo-manage-persons/permission/"+id;
     console.log("!!!!!",cookies.cookie)
@@ -64,13 +70,13 @@ export function Admin() {
       
       .then((response) => {
         console.log(response.status);
-        
+        console.log("putData",putData)
         console.log("response",response)
         console.log("response.data",response.data)
         
         // getAdminPermissionTable()
-  
-        
+        setClick("clickclick"+id)
+        alert("활성화가 완료되었습니다.")
       })
       
       .catch((error) => {
@@ -92,7 +98,10 @@ export function Admin() {
     console.log("!!!!!",cookies.cookie)
     let token = cookies.cookie.token
     console.log("token",token)
-    getAdminPermissionData({"token":token})
+    getAdminPermissionData({"token":token}).then(()=>{
+      forceUpdate()
+    })
+    
     // axios
     //   .get(geturl_set,{
     //     headers:{'Authorization': token}
@@ -270,6 +279,7 @@ export function Admin() {
                             /> */}
                             <Button
                               color = "pink"
+                              className = {click === 'clickclick'+id ? 'clickclick':''}
                               onClick = {()=>{
                                 console.log("1")
                                 postPermission(id)

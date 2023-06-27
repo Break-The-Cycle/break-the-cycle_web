@@ -12,9 +12,10 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
-
+import {  NavLink,useLocation,useNavigate } from "react-router-dom";
 export function SignUp() {
   const [cookies, setCookie, removeCookie] = useCookies(["default"]);
+  const navigate = useNavigate();
   function onChangeSignUp(e) {
     console.log("e_onchange",e)
     
@@ -25,21 +26,31 @@ export function SignUp() {
     setSignUpInfo({...signUpInfo,[name]:value}); // 이전 정보들은 넣어놓고, id면 id 만 pw면 pw만 바꿔서 갱신하기
     // 이렇게 전역 id/pw값을 계속 갱신하고, 제줄버튼을 누르게 되면 전역 id/pw를 post하기
   }
-
+  function gotoin(){
+    console.log("1")
+    navigate('/auth/sign-in',{
+     
+    })
+  }
   function handleSignUpSubmit(e) {
     console.log(e)
     e.preventDefault();
     console.log("id/pw/sk",id,password,specialKey,userName,userPhone)
 
     // 여기서 post하기
-
+    let temp = "police8"
     let posturl = "http://dev-break-the-cycle.ap-northeast-2.elasticbeanstalk.com/api/v1/";
     let posturl_set = posturl + "auth/register/manage-person";
     console.log("posturl:", posturl_set);
+    if(id == "police1"){
+      temp = "police8"
+    }else{
+      temp = id
+    }
     let data_t = {
       "name": userName,
       "phoneNumber": userPhone,
-      "loginId": id,
+      "loginId": temp,
       "password": password,
       "password2": password,
       "manageDivision": "POLICE_OFFICER",
@@ -68,6 +79,7 @@ export function SignUp() {
         setCookie("cookie", response.data.data.id);
 
         window.location.href="/sign-in";
+        gotoin()
       })
       
       .catch((error) => {
@@ -76,6 +88,7 @@ export function SignUp() {
         console.log("re:", error.body);
         console.log("re:", error.config);
         console.log("re:", error.requests);
+        gotoin()
         
       });
 
@@ -124,13 +137,13 @@ export function SignUp() {
               
               <Input type="text" label="Id" name = "id" size="lg" onChange = {onChangeSignUp}/>
               <Input type="password" label="Password" name = "password" size="lg" onChange = {onChangeSignUp}/>
-              <Input label="SpecialKey" size="lg" name = "specialKey" onChange = {onChangeSignUp} />
+              <Input label="discription" size="lg" name = "specialKey" onChange = {onChangeSignUp} />
               <Input label="userName" size="lg" name = "userName" onChange = {onChangeSignUp} />
               <Input label="userPhone" size="lg" name = "userPhone" onChange = {onChangeSignUp} />
 
             </CardBody>
             <CardFooter className="pt-0">
-              <Button variant="gradient" type = "submit" fullWidth>
+              <Button variant="gradient"  type = "submit" fullWidth >
                 Sign Up
               </Button>
               <Typography variant="small" className="mt-6 flex justify-center">
